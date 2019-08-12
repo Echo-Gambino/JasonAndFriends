@@ -10,8 +10,21 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    using FriendSheetMVC;
+    using Classes;
+
     public partial class JasonAndFriends : Form
     {
+        private FriendSheetController friendSheet;
+
+        private ComboBox ComboBoxFriends
+        {
+            get { return this.comboBoxSelFriends; }
+            set { this.comboBoxSelFriends = value; }
+        }
+
+        #region Initializer
+
         public JasonAndFriends()
         {
             InitializeComponent();
@@ -19,18 +32,133 @@
 
         private void JasonAndFriends_Load(object sender, EventArgs e)
         {
+            this.friendSheet = GenFriendSheetController();
 
+
+
+            List<Friend> friends = new List<Friend>();
+
+            friends.Add(new Friend("Abba"));
+            friends.Add(new Friend("Charles"));
+            friends.Add(new Friend("Mike"));
+            friends.Add(new Friend("Peter"));
+
+            foreach (Friend fr in friends)
+            {
+                this.ComboBoxFriends.Items.Add(fr);
+            }
         }
+
+        private FriendSheetController GenFriendSheetController()
+        {
+            FriendSheetController controller;
+            FriendSheetView view;
+
+            view = new FriendSheetView();
+
+            view.TextBoxName = this.textBoxFriendName;
+            view.RadioButtonDietary = new List<RadioButton>()
+            {
+                this.radioButtonDietaryYes,
+                this.radioButtonDietaryNo
+            };
+            view.RadioButtonCanDrink = new List<RadioButton>()
+            {
+                this.radioButtonCanDrinkYes,
+                this.radioButtonCanDrinkNo
+            };
+
+            controller = new FriendSheetController(view);
+
+            return controller;
+        }
+
+        #endregion Initializer
+
+        #region Private Methods
+
+
+        #endregion Private Methods
+
+        #region EventHandlers
 
         private void comboBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
-            if (cb == null) throw new ArgumentNullException();
+            ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
 
-            MessageBox.Show(cb.SelectedIndex.ToString());
+            Friend friend = (combo.SelectedItem as Friend) ?? new Friend();
 
-            cb.SelectedIndex = -1;
+            this.friendSheet.SetFriend(friend);
 
         }
+
+        private void buttonDelFriend_Click(object sender, EventArgs e)
+        {
+            // Retrieve comboBox
+            if (this.ComboBoxFriends == null) throw new NullReferenceException("ComboBox is null");
+
+            // Prompt user (and not break) if comboBox's selection is invalid
+            if (this.ComboBoxFriends.Items.Count == 0)
+            {
+                MessageBox.Show("Cannot Remove Friend: Friend list is already empty.");
+                return;
+            }
+            else if (this.ComboBoxFriends.SelectedIndex == -1)
+            {
+                MessageBox.Show("Cannot Remove Friend: No valid entry is selected.");
+                return;
+            }
+
+            // Get the index and the friend object of the comboBox
+            int index = this.ComboBoxFriends.SelectedIndex;
+            Friend friend = (this.ComboBoxFriends.SelectedItem as Friend);
+
+            // Remove the comboBoxItem by the index
+            this.ComboBoxFriends.Items.RemoveAt(index);
+
+            // If the friend selected is the same as the friend currently within
+            // the friendSheet, then set it to a blank sheet
+            if (friend == this.friendSheet.Friend)
+            {
+                this.friendSheet.SetFriend(new Friend());
+            }
+
+            // Set the selected index to be one entry above position 
+            // of the recently removed item
+            this.ComboBoxFriends.SelectedIndex = index - 1;
+
+        }
+
+        private void buttonNewFriend_Click(object sender, EventArgs e)
+        {
+            // Retrieve comboBox
+            if (this.ComboBoxFriends == null) throw new NullReferenceException("ComboBox is null");
+
+            this.ComboBoxFriends.SelectedIndex = -1;
+        }
+
+        private void buttonResetFriend_Click(object sender, EventArgs e)
+        {
+            this.friendSheet.ResetFriend();
+        }
+
+        private void buttonSaveFriend_Click(object sender, EventArgs e)
+        {
+            this.friendSheet.SaveFriend();
+
+            Friend friend = this.friendSheet.Friend;
+
+            int index = this.ComboBoxFriends.SelectedIndex;
+
+            ComboBox.ObjectCollection items = this.ComboBoxFriends.Items;
+
+            items.RemoveAt(index);
+            items.Insert(index, friend);
+
+            this.ComboBoxFriends.SelectedIndex = index;
+
+        }
+
+        #endregion EventHandlers
     }
 }
