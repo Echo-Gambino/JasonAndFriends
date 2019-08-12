@@ -52,7 +52,7 @@
 
                 this.data = SerializeFriend(this.friend);
 
-                SetFriendValuestoView(this.view, this.friend);
+                SetFriendValuesToView(this.view, this.friend);
             }
 
         }
@@ -103,7 +103,7 @@
 
                 this.friend = DeserializeFriend(this.data);
 
-                SetFriendValuestoView(this.view, this.friend);
+                SetFriendValuesToView(this.view, this.friend);
             }
         }
 
@@ -113,7 +113,7 @@
             {
                 this.friend = DeserializeFriend(this.data);
 
-                SetFriendValuestoView(this.view, this.friend);
+                SetFriendValuesToView(this.view, this.friend);
             }
         }
 
@@ -129,7 +129,7 @@
 
         #region Private
 
-        private void SetFriendValuestoView(FriendSheetView view, Friend friend)
+        private void SetFriendValuesToView(FriendSheetView view, Friend friend)
         {
             DelViewEventHandlers(view);
 

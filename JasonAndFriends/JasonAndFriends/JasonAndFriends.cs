@@ -152,7 +152,15 @@
 
             ComboBox.ObjectCollection items = this.ComboBoxFriends.Items;
 
-            items.RemoveAt(index);
+            if (index == -1)
+            {
+                index = 0;
+            }
+            else
+            {
+                items.RemoveAt(index);
+            }
+
             items.Insert(index, friend);
 
             this.ComboBoxFriends.SelectedIndex = index;
