@@ -16,6 +16,8 @@
     {
         #region Events
 
+        public event EventHandler ItemListChanged;
+
         #endregion Events
 
         #region Fields
@@ -39,7 +41,22 @@
 
         public List<Item> Items
         {
-            get { return this.items; }
+            get
+            {
+                lock (listLock)
+                {
+                    return this.items;
+                }
+            }
+            set
+            {
+                if (value == null) throw new ArgumentNullException();
+
+                lock (listLock)
+                {
+                    this.items = value;
+                }
+            }
         }
 
         #endregion Parameters
@@ -78,6 +95,23 @@
 
         #region Private
 
+        private Item OpenItemFormDialog(Item input = null)
+        {
+            Item output = null;
+
+            using (ItemForm iform = new ItemForm(input))
+            {
+                DialogResult result = iform.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    output = JsonConvert.DeserializeObject<Item>(iform.Data);
+                }
+            }
+
+            return output;
+        }
+
         private void SetItemsToView(ItemListView view, List<Item> items)
         {
             DelViewEventHandlers(view);
@@ -92,12 +126,14 @@
         {
             this.view.RemItemRequested += new EventHandler(ButtonRemove_Click);
             this.view.EdtItemRequested += new EventHandler(ButtonEdit_Click);
+            this.view.NewItemRequested += new EventHandler(ButtonNew_Click);
         }
 
         private void DelViewEventHandlers(ItemListView view)
         {
             this.view.RemItemRequested -= new EventHandler(ButtonRemove_Click);
             this.view.EdtItemRequested -= new EventHandler(ButtonEdit_Click);
+            this.view.NewItemRequested -= new EventHandler(ButtonNew_Click);
         }
 
         private string SerializeItems(List<Item> items)
@@ -131,8 +167,17 @@
             int index = lb.SelectedIndex;
             if (index != -1)
             {
-                lb.Items.RemoveAt(index);
-                lb.SelectedIndex = index - 1;
+                Item item = (lb.Items[index] as Item) ?? throw new NullReferenceException();
+
+                lock (listLock)
+                {
+                    this.items.Remove(item);
+
+                    lb.Items.RemoveAt(index);
+                    lb.SelectedIndex = index - 1;
+
+                    ItemListChanged?.Invoke(this.items, new EventArgs());
+                }
             }
             else
             {
@@ -157,23 +202,46 @@
             {
                 Item item = (lb.SelectedItem as Item) ?? throw new ArgumentNullException();
 
-                using (ItemForm iform = new ItemForm(item))
+                Item newItem = OpenItemFormDialog(item);
+
+                if (newItem != null)
                 {
-                    iform.ShowDialog();
+                    lock (listLock)
+                    {
+                        this.items.Remove(item);
+                        this.items.Add(newItem);
 
-                    MessageBox.Show("Within iform");
+                        SetItemsToView(this.view, this.items);
 
+                        ItemListChanged?.Invoke(this.items, new EventArgs());
+                    }
                 }
-
-                MessageBox.Show("Out of iform");
-
-                
             }
             else
             {
                 MessageBox.Show("Please select an item to edit.", "Cannot edit");
             }
+        }
 
+        public void ButtonNew_Click(object sender, EventArgs e)
+        {
+            ListBox lb = this.view?.ListBoxItems ?? throw new ArgumentNullException();
+
+            if (lb == null) throw new ArgumentNullException("listbox is null");
+
+            Item newItem = OpenItemFormDialog();
+
+            if (newItem != null)
+            {
+                lock (listLock)
+                {
+                    this.items.Add(newItem);
+
+                    SetItemsToView(this.view, this.items);
+
+                    ItemListChanged?.Invoke(this.items, new EventArgs());
+                }
+            }
         }
 
         #endregion EventHandlers

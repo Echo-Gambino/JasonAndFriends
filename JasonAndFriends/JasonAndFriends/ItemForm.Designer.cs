@@ -59,6 +59,11 @@
             this.numericUpDownItemQuantity.Name = "numericUpDownItemQuantity";
             this.numericUpDownItemQuantity.Size = new System.Drawing.Size(37, 20);
             this.numericUpDownItemQuantity.TabIndex = 3;
+            this.numericUpDownItemQuantity.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownItemQuantity.ValueChanged += new System.EventHandler(this.numericUpDownItemQuantity_ValueChanged);
             // 
             // comboBoxItemName

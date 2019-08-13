@@ -16,6 +16,8 @@
 
     public partial class ItemForm : Form
     {
+        private const string EMPTY_NAME_PROMPT = "<Item Name>";
+
         private Item item;
 
         private string data;
@@ -32,11 +34,16 @@
             get { return this.data; }
         }
 
-        public ItemForm(Item item)
+        public ItemForm(Item item = null)
         {
             InitializeComponent();
 
             this.lastItemName = string.Empty;
+
+            if (item == null)
+            {
+                item = new Item();
+            }
 
             this.data = SerializeItem(item);
 
@@ -50,9 +57,14 @@
 
         private void DisplayItemParams(Item item)
         {
-            this.comboBoxItemName.Text = this.item.Name;
+            string text = EMPTY_NAME_PROMPT;
 
-            this.numericUpDownItemQuantity.Value = this.item.Quantity;
+            if (item.Name != "")
+                text = item.Name;
+
+            this.comboBoxItemName.Text = text;
+
+            this.numericUpDownItemQuantity.Value = item.Quantity;
         }
 
         private string SerializeItem(Item item)
@@ -78,6 +90,18 @@
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
+            // Check for invalid user inputs 
+            string itemName = this.comboBoxItemName.Text;
+            if ((itemName == EMPTY_NAME_PROMPT) || (itemName == ""))
+            {
+                MessageBox.Show(
+                    "Item name is not valid, please specify an item name", 
+                    "Cannot Confirm Changes",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            // Finalize confirmation
             this.data = SerializeItem(this.item);
 
             this.DialogResult = DialogResult.OK;
@@ -87,6 +111,19 @@
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            string curData = JsonConvert.SerializeObject(this.item, Formatting.Indented);
+            if (curData != this.data)
+            {
+                MessageBox.Show(string.Format("{0}\n\n{1}", curData, this.data));
+
+                string mainMsg = "You have made some changes in the item that are still unsaved.\n";
+                mainMsg += "Continue to exit?";
+                DialogResult result = MessageBox.Show(mainMsg, "Unsaved Changes Detected", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.No) return;
+            }
+
+
             this.DialogResult = DialogResult.Cancel;
 
             this.Close();
@@ -96,9 +133,9 @@
         {
             NumericUpDown nup = (sender as NumericUpDown) ?? throw new ArgumentNullException();
 
-            if (nup.Value < 0)
+            if (nup.Value <= 0)
             {
-                nup.Value = 0;
+                nup.Value = 1;
             }
             else
             {
@@ -111,10 +148,9 @@
         {
             ComboBox cb = (sender as ComboBox) ?? throw new ArgumentNullException();
 
-
             if ((cb.Text == "") || (cb.Text == string.Empty))
             {
-                cb.Text = "<Item Name>";
+                cb.Text = EMPTY_NAME_PROMPT;
             }
 
             this.lastItemName = cb.Text;
@@ -124,7 +160,11 @@
         {
             ComboBox cb = (sender as ComboBox) ?? throw new ArgumentNullException();
 
-            this.item.Name = cb.Text;
+            string committedText = cb.Text;
+
+            if (committedText == EMPTY_NAME_PROMPT) committedText = "";
+
+            this.item.Name = committedText;
         }
 
         private void comboBoxItemName_KeyPressed(object sender, KeyEventArgs e)
@@ -133,10 +173,14 @@
 
             if (e.KeyCode == Keys.Enter)
             {
-                this.item.Name = cb.Text;
+                string committedText = cb.Text;
+
+                if (committedText == EMPTY_NAME_PROMPT) committedText = "";
+
+                this.item.Name = committedText;
             }
 
-            if (this.lastItemName == "<Item Name>")
+            if (this.lastItemName == EMPTY_NAME_PROMPT)
             {
                 if ((e.KeyCode.ToString().Length == 1)
                     || (e.KeyCode == Keys.Back))

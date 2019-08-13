@@ -75,7 +75,7 @@
             get { return this.quantity; }
             set
             {
-                if (!(value >= 0)) throw new ArgumentException("quantity must be set to a positive number");
+                if (!(value >= 0)) throw new ArgumentException("quantity must be set to a positive integer");
 
                 this.quantity = value;
             }
@@ -86,12 +86,12 @@
         public Item()
         {
             this.name = string.Empty;
+            this.quantity = 1;
         }
 
-        public Item(string name)
+        public Item(string name) : this()
         {
             this.name = name;
-            this.quantity = 0;
         }
 
         #endregion Constructor
@@ -100,7 +100,9 @@
 
         public override string ToString()
         {
-            return this.Name;
+            string text = string.Format("{0}\tx {1}", this.quantity, this.name);
+
+            return text;
         }
 
         #endregion Methods
