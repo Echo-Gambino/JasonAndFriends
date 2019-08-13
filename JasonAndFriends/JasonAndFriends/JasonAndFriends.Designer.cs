@@ -50,6 +50,7 @@
             this.radioButtonCanDrinkYes = new System.Windows.Forms.RadioButton();
             this.radioButtonCanDrinkNo = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.listBoxWillBring = new System.Windows.Forms.ListBox();
             this.tableLayoutPanelWillBring = new System.Windows.Forms.TableLayoutPanel();
             this.buttonWillBringNew = new System.Windows.Forms.Button();
             this.buttonWillBringRem = new System.Windows.Forms.Button();
@@ -59,7 +60,6 @@
             this.buttonSaveFriend = new System.Windows.Forms.Button();
             this.textBoxFriendName = new System.Windows.Forms.TextBox();
             this.labelFriendName = new System.Windows.Forms.Label();
-            this.listBoxWillBring = new System.Windows.Forms.ListBox();
             this.panelFriendInfo.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -342,6 +342,17 @@
             this.panel1.Size = new System.Drawing.Size(238, 332);
             this.panel1.TabIndex = 16;
             // 
+            // listBoxWillBring
+            // 
+            this.listBoxWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxWillBring.FormattingEnabled = true;
+            this.listBoxWillBring.Location = new System.Drawing.Point(6, 50);
+            this.listBoxWillBring.Name = "listBoxWillBring";
+            this.listBoxWillBring.Size = new System.Drawing.Size(225, 277);
+            this.listBoxWillBring.TabIndex = 6;
+            // 
             // tableLayoutPanelWillBring
             // 
             this.tableLayoutPanelWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -417,6 +428,7 @@
             // buttonSaveFriend
             // 
             this.buttonSaveFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSaveFriend.Enabled = false;
             this.buttonSaveFriend.Location = new System.Drawing.Point(423, 451);
             this.buttonSaveFriend.Name = "buttonSaveFriend";
             this.buttonSaveFriend.Size = new System.Drawing.Size(75, 23);
@@ -433,6 +445,7 @@
             this.textBoxFriendName.Name = "textBoxFriendName";
             this.textBoxFriendName.Size = new System.Drawing.Size(450, 20);
             this.textBoxFriendName.TabIndex = 5;
+            this.textBoxFriendName.TextChanged += new System.EventHandler(this.textBoxFriendName_TextChanged);
             // 
             // labelFriendName
             // 
@@ -442,17 +455,6 @@
             this.labelFriendName.Size = new System.Drawing.Size(38, 13);
             this.labelFriendName.TabIndex = 4;
             this.labelFriendName.Text = "Name:";
-            // 
-            // listBoxWillBring
-            // 
-            this.listBoxWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxWillBring.FormattingEnabled = true;
-            this.listBoxWillBring.Location = new System.Drawing.Point(6, 50);
-            this.listBoxWillBring.Name = "listBoxWillBring";
-            this.listBoxWillBring.Size = new System.Drawing.Size(225, 277);
-            this.listBoxWillBring.TabIndex = 6;
             // 
             // JasonAndFriends
             // 

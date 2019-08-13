@@ -79,19 +79,85 @@
 
         public ItemListController(ItemListView itemListView, List<Item> items) : this(itemListView)
         {
-            lock (listLock)
-            {
-                this.items = items;
-
-                this.data = SerializeItems(this.items);
-
-                SetItemsToView(this.view, this.items);
-            }
+            SetItems(items);
         }
 
         #endregion Constructors
 
         #region Methods
+
+        #region Public
+
+        public void ReplaceItem(Item target, Item replacer)
+        {
+            lock (listLock)
+            {
+                this.items.Remove(target);
+                this.items.Add(replacer);
+
+                SetItemsToView(this.view, this.items);
+
+                ItemListChanged?.Invoke(this.items, new EventArgs());
+            }
+        }
+
+        public void RemoveItem(Item target)
+        {
+            lock (listLock)
+            {
+                this.items.Remove(target);
+
+                SetItemsToView(this.view, this.items);
+
+                ItemListChanged?.Invoke(this.items, new EventArgs());
+            }
+        }
+
+        public void AddItem(Item newItem)
+        {
+            lock (listLock)
+            {
+                this.items.Add(newItem);
+
+                SetItemsToView(this.view, this.items);
+
+                ItemListChanged?.Invoke(this.items, new EventArgs());
+            }
+        }
+
+        public void SetItems(List<Item> items)
+        {
+            if (items == null) throw new ArgumentNullException();
+
+            lock (listLock)
+            {
+                this.data = SerializeItems(items);
+
+                this.items = DeserializeItems(data);
+
+                SetItemsToView(this.view, this.items);
+            }
+        }
+
+        public void ResetFriend()
+        {
+            lock (listLock)
+            {
+                this.items = DeserializeItems(this.data);
+
+                SetItemsToView(this.view, this.items);
+            }
+        }
+
+        public void SaveItems()
+        {
+            lock (listLock)
+            {
+                this.data = SerializeItems(items);
+            }
+        }
+
+        #endregion Public
 
         #region Private
 
@@ -152,7 +218,7 @@
 
         #region EventHandlers
 
-        public void ButtonRemove_Click(object sender, EventArgs e)
+        private void ButtonRemove_Click(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems;
 
@@ -169,15 +235,9 @@
             {
                 Item item = (lb.Items[index] as Item) ?? throw new NullReferenceException();
 
-                lock (listLock)
-                {
-                    this.items.Remove(item);
+                RemoveItem(item);
 
-                    lb.Items.RemoveAt(index);
-                    lb.SelectedIndex = index - 1;
-
-                    ItemListChanged?.Invoke(this.items, new EventArgs());
-                }
+                lb.SelectedIndex = index - 1;
             }
             else
             {
@@ -185,7 +245,7 @@
             }
         }
 
-        public void ButtonEdit_Click(object sender, EventArgs e)
+        private void ButtonEdit_Click(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems;
 
@@ -206,15 +266,7 @@
 
                 if (newItem != null)
                 {
-                    lock (listLock)
-                    {
-                        this.items.Remove(item);
-                        this.items.Add(newItem);
-
-                        SetItemsToView(this.view, this.items);
-
-                        ItemListChanged?.Invoke(this.items, new EventArgs());
-                    }
+                    ReplaceItem(item, newItem);
                 }
             }
             else
@@ -223,7 +275,7 @@
             }
         }
 
-        public void ButtonNew_Click(object sender, EventArgs e)
+        private void ButtonNew_Click(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems ?? throw new ArgumentNullException();
 
@@ -233,14 +285,7 @@
 
             if (newItem != null)
             {
-                lock (listLock)
-                {
-                    this.items.Add(newItem);
-
-                    SetItemsToView(this.view, this.items);
-
-                    ItemListChanged?.Invoke(this.items, new EventArgs());
-                }
+                AddItem(newItem);
             }
         }
 

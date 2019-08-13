@@ -51,21 +51,34 @@
                 this.ComboBoxFriends.Items.Add(fr);
             }
 
-            List<Item> items = new List<Item>()
-            {
-                new Item("Apple"),
-                new Item("Dip"),
-                new Item("Chips")
-            };
+            //List<Item> items = new List<Item>()
+            //{
+            //    new Item("Apple"),
+            //    new Item("Dip"),
+            //    new Item("Chips")
+            //};
 
-            ItemListView view = new ItemListView();
+            this.itemList = GenItemListController();
+
+            //this.itemList.SetItems(items);
+
+        }
+
+        private ItemListController GenItemListController()
+        {
+            ItemListController controller;
+            ItemListView view;
+
+            view = new ItemListView();
+
             view.ButtonNew = this.buttonWillBringNew;
             view.ButtonRem = this.buttonWillBringRem;
             view.ButtonEdt = this.buttonWillBringEdt;
             view.ListBoxItems = this.listBoxWillBring;
 
-            this.itemList = new ItemListController(view, items);
+            controller = new ItemListController(view);
 
+            return controller;
         }
 
         private FriendSheetController GenFriendSheetController()
@@ -186,7 +199,18 @@
 
         }
 
+        private void textBoxFriendName_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = (sender as TextBox) ?? throw new ArgumentNullException();
+
+            // Enables or disables the button to save the friend's parameters
+            // if the string is null, empty, or whitespace.
+            this.buttonSaveFriend.Enabled = !(string.IsNullOrWhiteSpace(textBox.Text));
+
+
+        }
 
         #endregion EventHandlers
+
     }
 }

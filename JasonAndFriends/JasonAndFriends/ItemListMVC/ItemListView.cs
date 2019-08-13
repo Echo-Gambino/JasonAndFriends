@@ -154,22 +154,22 @@
 
         #region Event Handlers
 
-        public void ItemList_SelIndexChanged(object sender, EventArgs e)
+        private void ItemList_SelIndexChanged(object sender, EventArgs e)
         {
             SelectedItemChanged?.Invoke(sender, e);
         }
 
-        public void ButtonNew_Click(object sender, EventArgs e)
+        private void ButtonNew_Click(object sender, EventArgs e)
         {
             NewItemRequested?.Invoke(sender, e);
         }
 
-        public void ButtonRem_Click(object sender, EventArgs e)
+        private void ButtonRem_Click(object sender, EventArgs e)
         {
             RemItemRequested?.Invoke(sender, e);
         }
 
-        public void ButtonEdt_Click(object sender, EventArgs e)
+        private void ButtonEdt_Click(object sender, EventArgs e)
         {
             EdtItemRequested?.Invoke(sender, e);
         }
