@@ -139,7 +139,7 @@
             }
         }
 
-        public void ResetFriend()
+        public void ResetItemList()
         {
             lock (listLock)
             {
@@ -149,7 +149,7 @@
             }
         }
 
-        public void SaveItems()
+        public void SaveItemList()
         {
             lock (listLock)
             {

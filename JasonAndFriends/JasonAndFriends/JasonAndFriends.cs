@@ -109,10 +109,70 @@
 
         #region Private Methods
 
+        private void PerformSaveOp()
+        {
+            this.friendSheet.SaveFriend();
+            this.itemList.SaveItemList();
+
+            Friend friend = this.friendSheet.Friend;
+
+            friend.ItemList = this.itemList.Items;
+
+            int index = this.ComboBoxFriends.SelectedIndex;
+
+            ComboBox.ObjectCollection items = this.ComboBoxFriends.Items;
+
+            if (index == -1)
+            {
+                index = 0;
+            }
+            else
+            {
+                items.RemoveAt(index);
+            }
+
+            items.Insert(index, friend);
+
+            this.ComboBoxFriends.SelectedIndex = index;
+        }
 
         #endregion Private Methods
 
         #region EventHandlers
+
+        private void comboBoxSelFriends_Click(object sender, EventArgs e)
+        {
+            ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
+
+            Friend friend = this.friendSheet.Friend;
+
+            string curData = this.friendSheet.FriendData;
+            string savData = this.friendSheet.SavedData;
+
+            if (curData != savData)
+            {
+                DialogResult result = MessageBox.Show(
+                    "There are unsaved changes in the program!\nSave Changes?", 
+                    "Unsaved Changes Detected",
+                    MessageBoxButtons.YesNoCancel);
+
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        PerformSaveOp();
+                        break;
+                    case DialogResult.No:
+                        this.ComboBoxFriends.DroppedDown = true;
+                        break;
+                    case DialogResult.Cancel:
+                        this.ComboBoxFriends.DroppedDown = false;
+                        //this.ComboBoxFriends.AllowDrop = false;
+                        break;
+                    default:
+                        throw new NotSupportedException("DialogResult not accounted for");
+                }
+            }
+        }
 
         private void comboBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -121,6 +181,9 @@
             Friend friend = (combo.SelectedItem as Friend) ?? new Friend();
 
             this.friendSheet.SetFriend(friend);
+
+            List<Item> items = friend.ItemList;
+            this.itemList.SetItems(items);
 
         }
 
@@ -172,13 +235,17 @@
         private void buttonResetFriend_Click(object sender, EventArgs e)
         {
             this.friendSheet.ResetFriend();
+            this.itemList.ResetItemList();
         }
 
         private void buttonSaveFriend_Click(object sender, EventArgs e)
         {
             this.friendSheet.SaveFriend();
+            this.itemList.SaveItemList();
 
             Friend friend = this.friendSheet.Friend;
+
+            friend.ItemList = this.itemList.Items;
 
             int index = this.ComboBoxFriends.SelectedIndex;
 
@@ -206,7 +273,6 @@
             // Enables or disables the button to save the friend's parameters
             // if the string is null, empty, or whitespace.
             this.buttonSaveFriend.Enabled = !(string.IsNullOrWhiteSpace(textBox.Text));
-
 
         }
 

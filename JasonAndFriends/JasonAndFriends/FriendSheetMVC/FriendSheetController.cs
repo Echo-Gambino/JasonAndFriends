@@ -38,6 +38,18 @@
             get { return this.friend; }
         }
 
+        [JsonIgnore]
+        public string FriendData
+        {
+            get { return SerializeFriend(this.friend); }
+        }
+
+        [JsonIgnore]
+        public string SavedData
+        {
+            get { return this.data; }
+        }
+
         #endregion Parameters
 
         #region Initializers

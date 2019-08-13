@@ -82,6 +82,7 @@
             this.comboBoxSelFriends.Name = "comboBoxSelFriends";
             this.comboBoxSelFriends.Size = new System.Drawing.Size(288, 21);
             this.comboBoxSelFriends.TabIndex = 0;
+            this.comboBoxSelFriends.Click += new System.EventHandler(this.comboBoxSelFriends_Click);
             this.comboBoxSelFriends.SelectedIndexChanged += new System.EventHandler(this.comboBoxFriends_SelectedIndexChanged);
             // 
             // labelFriends
