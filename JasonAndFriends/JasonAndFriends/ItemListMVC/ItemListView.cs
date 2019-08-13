@@ -8,13 +8,13 @@
 
     using System.Windows.Forms;
 
+    using Classes;
+
     public class ItemListView
     {
         #region Events
 
         public event EventHandler SelectedItemChanged;
-
-        public event EventHandler ItemChecked;
 
         public event EventHandler NewItemRequested;
 
@@ -26,7 +26,7 @@
 
         #region Fields
 
-        private CheckedListBox itemList;
+        private ListBox listBoxItems;
 
         private Button buttonNew;
 
@@ -34,27 +34,23 @@
 
         private Button buttonEdt;
 
-        private int currentlyChecked;
-
         #endregion Fields
 
         #region Parameters
 
-        public CheckedListBox ItemList
+        public ListBox ListBoxItems
         {
-            get { return this.itemList; }
+            get { return this.listBoxItems; }
             set
             {
-                if (this.itemList != null)
+                if (this.listBoxItems != null)
                 {
-                    this.itemList.SelectedIndexChanged -= new EventHandler(ItemList_SelIndexChanged);
-                    this.itemList.ItemCheck -= new ItemCheckEventHandler(ItemList_ItemChecked);
+                    this.listBoxItems.SelectedIndexChanged -= new EventHandler(ItemList_SelIndexChanged);
                 }
 
-                this.itemList = value ?? throw new ArgumentNullException();
+                this.listBoxItems = value ?? throw new ArgumentNullException();
 
-                this.itemList.SelectedIndexChanged += new EventHandler(ItemList_SelIndexChanged);
-                this.itemList.ItemCheck += new ItemCheckEventHandler(ItemList_ItemChecked);
+                this.listBoxItems.SelectedIndexChanged += new EventHandler(ItemList_SelIndexChanged);
             }
         }
 
@@ -107,51 +103,60 @@
 
         }
 
-        public int CurrentlyChecked
-        {
-            get { return this.currentlyChecked; }
-            set { this.currentlyChecked = value; }
-        }
-
         #endregion Parameters
+
+        #region Constructors
 
         public ItemListView()
         {
-            this.currentlyChecked = -1;
         }
 
+        #endregion Constructors
+
+        #region Methods
+
+        public void SetItems(List<Item> items)
+        {
+            ListBox.ObjectCollection LBcollection = this.listBoxItems?.Items;
+
+            if (LBcollection != null)
+            {
+                FillLB(items, LBcollection);
+            }
+
+        }
+
+        public void FillCLB(List<Item> items, CheckedListBox.ObjectCollection collection)
+        {
+            if ((collection == null) || (items == null)) throw new ArgumentNullException();
+
+            collection.Clear();
+
+            foreach (Item i in items)
+            {
+                collection.Add(i);
+            }
+        }
+
+        public void FillLB(List<Item> items, ListBox.ObjectCollection collection)
+        {
+            if ((collection == null) || (items == null)) throw new ArgumentNullException();
+
+            collection.Clear();
+
+            foreach (Item i in items)
+            {
+                collection.Add(i);
+            }
+        }
+
+        #endregion Methods
 
         #region Event Handlers
 
         public void ItemList_SelIndexChanged(object sender, EventArgs e)
         {
             SelectedItemChanged?.Invoke(sender, e);
-        }
-
-        public void ItemList_ItemChecked(object sender, ItemCheckEventArgs e)
-        {
-            CheckedListBox clb = sender as CheckedListBox;
-
-            if (e.NewValue == CheckState.Checked)
-            {
-                if (this.currentlyChecked != -1)
-                {
-                    clb.SetItemChecked(this.currentlyChecked, false);
-                }
-
-                this.currentlyChecked = e.Index;
-            }
-            else
-            {
-                if (this.currentlyChecked != e.Index)
-                {
-                    clb.SetItemChecked(this.currentlyChecked, false);
-                }
-
-                this.currentlyChecked = -1;
-            }
-
-            ItemChecked?.Invoke(sender, e);
         }
 
         public void ButtonNew_Click(object sender, EventArgs e)
@@ -168,8 +173,6 @@
         {
             EdtItemRequested?.Invoke(sender, e);
         }
-
-
 
         #endregion Event Handlers
 

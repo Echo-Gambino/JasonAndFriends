@@ -33,41 +33,41 @@
             this.buttonNewFriend = new System.Windows.Forms.Button();
             this.buttonDelFriend = new System.Windows.Forms.Button();
             this.panelFriendInfo = new System.Windows.Forms.Panel();
-            this.buttonResetFriend = new System.Windows.Forms.Button();
-            this.buttonSaveFriend = new System.Windows.Forms.Button();
-            this.textBoxFriendName = new System.Windows.Forms.TextBox();
-            this.labelFriendName = new System.Windows.Forms.Label();
-            this.radioButtonDietaryYes = new System.Windows.Forms.RadioButton();
-            this.radioButtonDietaryNo = new System.Windows.Forms.RadioButton();
-            this.labelDietary = new System.Windows.Forms.Label();
-            this.labelCanDrink = new System.Windows.Forms.Label();
-            this.radioButtonCanDrinkYes = new System.Windows.Forms.RadioButton();
-            this.radioButtonCanDrinkNo = new System.Windows.Forms.RadioButton();
-            this.panelDietary = new System.Windows.Forms.Panel();
-            this.panelCanDrink = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonWillBringNew = new System.Windows.Forms.Button();
-            this.buttonWillBringRem = new System.Windows.Forms.Button();
-            this.buttonWillBringEdit = new System.Windows.Forms.Button();
-            this.labelWillBring = new System.Windows.Forms.Label();
-            this.tableLayoutPanelWillBring = new System.Windows.Forms.TableLayoutPanel();
-            this.checkedListBoxWillBring = new System.Windows.Forms.CheckedListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkedListBoxWillWant = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonWillWantNew = new System.Windows.Forms.Button();
             this.buttonWillWantRem = new System.Windows.Forms.Button();
-            this.buttonWillWantEdit = new System.Windows.Forms.Button();
+            this.buttonWillWantEdt = new System.Windows.Forms.Button();
             this.labelWillWant = new System.Windows.Forms.Label();
+            this.panelDietary = new System.Windows.Forms.Panel();
+            this.labelDietary = new System.Windows.Forms.Label();
+            this.radioButtonDietaryYes = new System.Windows.Forms.RadioButton();
+            this.radioButtonDietaryNo = new System.Windows.Forms.RadioButton();
+            this.panelCanDrink = new System.Windows.Forms.Panel();
+            this.labelCanDrink = new System.Windows.Forms.Label();
+            this.radioButtonCanDrinkYes = new System.Windows.Forms.RadioButton();
+            this.radioButtonCanDrinkNo = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanelWillBring = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonWillBringNew = new System.Windows.Forms.Button();
+            this.buttonWillBringRem = new System.Windows.Forms.Button();
+            this.buttonWillBringEdt = new System.Windows.Forms.Button();
+            this.labelWillBring = new System.Windows.Forms.Label();
+            this.buttonResetFriend = new System.Windows.Forms.Button();
+            this.buttonSaveFriend = new System.Windows.Forms.Button();
+            this.textBoxFriendName = new System.Windows.Forms.TextBox();
+            this.labelFriendName = new System.Windows.Forms.Label();
+            this.listBoxWillBring = new System.Windows.Forms.ListBox();
             this.panelFriendInfo.SuspendLayout();
-            this.panelDietary.SuspendLayout();
-            this.panelCanDrink.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.tableLayoutPanelWillBring.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panelDietary.SuspendLayout();
+            this.panelCanDrink.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tableLayoutPanelWillBring.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBoxSelFriends
@@ -136,6 +136,273 @@
             this.panelFriendInfo.Size = new System.Drawing.Size(505, 477);
             this.panelFriendInfo.TabIndex = 4;
             // 
+            // tableLayoutPanel
+            // 
+            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tableLayoutPanel.ColumnCount = 2;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.77778F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.22222F));
+            this.tableLayoutPanel.Controls.Add(this.panel2, 1, 1);
+            this.tableLayoutPanel.Controls.Add(this.panelDietary, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.panelCanDrink);
+            this.tableLayoutPanel.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(7, 62);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 2;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(491, 383);
+            this.tableLayoutPanel.TabIndex = 16;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.checkedListBoxWillWant);
+            this.panel2.Controls.Add(this.tableLayoutPanel1);
+            this.panel2.Controls.Add(this.labelWillWant);
+            this.panel2.Location = new System.Drawing.Point(247, 48);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(241, 332);
+            this.panel2.TabIndex = 17;
+            // 
+            // checkedListBoxWillWant
+            // 
+            this.checkedListBoxWillWant.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedListBoxWillWant.FormattingEnabled = true;
+            this.checkedListBoxWillWant.Location = new System.Drawing.Point(6, 52);
+            this.checkedListBoxWillWant.Name = "checkedListBoxWillWant";
+            this.checkedListBoxWillWant.Size = new System.Drawing.Size(228, 274);
+            this.checkedListBoxWillWant.TabIndex = 5;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantNew, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantRem, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantEdt, 2, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 19);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(234, 29);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // buttonWillWantNew
+            // 
+            this.buttonWillWantNew.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillWantNew.Location = new System.Drawing.Point(3, 3);
+            this.buttonWillWantNew.Name = "buttonWillWantNew";
+            this.buttonWillWantNew.Size = new System.Drawing.Size(71, 23);
+            this.buttonWillWantNew.TabIndex = 0;
+            this.buttonWillWantNew.Text = "New";
+            this.buttonWillWantNew.UseVisualStyleBackColor = true;
+            // 
+            // buttonWillWantRem
+            // 
+            this.buttonWillWantRem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillWantRem.Location = new System.Drawing.Point(80, 3);
+            this.buttonWillWantRem.Name = "buttonWillWantRem";
+            this.buttonWillWantRem.Size = new System.Drawing.Size(72, 23);
+            this.buttonWillWantRem.TabIndex = 1;
+            this.buttonWillWantRem.Text = "Remove";
+            this.buttonWillWantRem.UseVisualStyleBackColor = true;
+            // 
+            // buttonWillWantEdt
+            // 
+            this.buttonWillWantEdt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillWantEdt.Location = new System.Drawing.Point(158, 3);
+            this.buttonWillWantEdt.Name = "buttonWillWantEdt";
+            this.buttonWillWantEdt.Size = new System.Drawing.Size(73, 23);
+            this.buttonWillWantEdt.TabIndex = 2;
+            this.buttonWillWantEdt.Text = "Edit";
+            this.buttonWillWantEdt.UseVisualStyleBackColor = true;
+            // 
+            // labelWillWant
+            // 
+            this.labelWillWant.AutoSize = true;
+            this.labelWillWant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWillWant.Location = new System.Drawing.Point(0, 0);
+            this.labelWillWant.Name = "labelWillWant";
+            this.labelWillWant.Size = new System.Drawing.Size(73, 16);
+            this.labelWillWant.TabIndex = 3;
+            this.labelWillWant.Text = "Will Want";
+            // 
+            // panelDietary
+            // 
+            this.panelDietary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelDietary.Controls.Add(this.labelDietary);
+            this.panelDietary.Controls.Add(this.radioButtonDietaryYes);
+            this.panelDietary.Controls.Add(this.radioButtonDietaryNo);
+            this.panelDietary.Location = new System.Drawing.Point(3, 3);
+            this.panelDietary.Name = "panelDietary";
+            this.panelDietary.Size = new System.Drawing.Size(238, 39);
+            this.panelDietary.TabIndex = 14;
+            // 
+            // labelDietary
+            // 
+            this.labelDietary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelDietary.AutoSize = true;
+            this.labelDietary.Location = new System.Drawing.Point(136, 0);
+            this.labelDietary.Name = "labelDietary";
+            this.labelDietary.Size = new System.Drawing.Size(98, 13);
+            this.labelDietary.TabIndex = 10;
+            this.labelDietary.Text = "Dietary Restrictions";
+            // 
+            // radioButtonDietaryYes
+            // 
+            this.radioButtonDietaryYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButtonDietaryYes.AutoSize = true;
+            this.radioButtonDietaryYes.Location = new System.Drawing.Point(139, 19);
+            this.radioButtonDietaryYes.Name = "radioButtonDietaryYes";
+            this.radioButtonDietaryYes.Size = new System.Drawing.Size(43, 17);
+            this.radioButtonDietaryYes.TabIndex = 8;
+            this.radioButtonDietaryYes.Text = "Yes";
+            this.radioButtonDietaryYes.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDietaryNo
+            // 
+            this.radioButtonDietaryNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButtonDietaryNo.AutoSize = true;
+            this.radioButtonDietaryNo.Checked = true;
+            this.radioButtonDietaryNo.Location = new System.Drawing.Point(196, 19);
+            this.radioButtonDietaryNo.Name = "radioButtonDietaryNo";
+            this.radioButtonDietaryNo.Size = new System.Drawing.Size(39, 17);
+            this.radioButtonDietaryNo.TabIndex = 9;
+            this.radioButtonDietaryNo.TabStop = true;
+            this.radioButtonDietaryNo.Text = "No";
+            this.radioButtonDietaryNo.UseVisualStyleBackColor = true;
+            // 
+            // panelCanDrink
+            // 
+            this.panelCanDrink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelCanDrink.Controls.Add(this.labelCanDrink);
+            this.panelCanDrink.Controls.Add(this.radioButtonCanDrinkYes);
+            this.panelCanDrink.Controls.Add(this.radioButtonCanDrinkNo);
+            this.panelCanDrink.Location = new System.Drawing.Point(247, 3);
+            this.panelCanDrink.Name = "panelCanDrink";
+            this.panelCanDrink.Size = new System.Drawing.Size(241, 39);
+            this.panelCanDrink.TabIndex = 15;
+            // 
+            // labelCanDrink
+            // 
+            this.labelCanDrink.AutoSize = true;
+            this.labelCanDrink.Location = new System.Drawing.Point(3, 0);
+            this.labelCanDrink.Name = "labelCanDrink";
+            this.labelCanDrink.Size = new System.Drawing.Size(101, 13);
+            this.labelCanDrink.TabIndex = 11;
+            this.labelCanDrink.Text = "Over 18 (Can Drink)";
+            // 
+            // radioButtonCanDrinkYes
+            // 
+            this.radioButtonCanDrinkYes.AutoSize = true;
+            this.radioButtonCanDrinkYes.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonCanDrinkYes.Name = "radioButtonCanDrinkYes";
+            this.radioButtonCanDrinkYes.Size = new System.Drawing.Size(43, 17);
+            this.radioButtonCanDrinkYes.TabIndex = 12;
+            this.radioButtonCanDrinkYes.Text = "Yes";
+            this.radioButtonCanDrinkYes.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonCanDrinkNo
+            // 
+            this.radioButtonCanDrinkNo.AutoSize = true;
+            this.radioButtonCanDrinkNo.Checked = true;
+            this.radioButtonCanDrinkNo.Location = new System.Drawing.Point(65, 19);
+            this.radioButtonCanDrinkNo.Name = "radioButtonCanDrinkNo";
+            this.radioButtonCanDrinkNo.Size = new System.Drawing.Size(39, 17);
+            this.radioButtonCanDrinkNo.TabIndex = 13;
+            this.radioButtonCanDrinkNo.TabStop = true;
+            this.radioButtonCanDrinkNo.Text = "No";
+            this.radioButtonCanDrinkNo.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.listBoxWillBring);
+            this.panel1.Controls.Add(this.tableLayoutPanelWillBring);
+            this.panel1.Controls.Add(this.labelWillBring);
+            this.panel1.Location = new System.Drawing.Point(3, 48);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(238, 332);
+            this.panel1.TabIndex = 16;
+            // 
+            // tableLayoutPanelWillBring
+            // 
+            this.tableLayoutPanelWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelWillBring.ColumnCount = 3;
+            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringNew, 0, 0);
+            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringRem, 1, 0);
+            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringEdt, 2, 0);
+            this.tableLayoutPanelWillBring.Location = new System.Drawing.Point(3, 19);
+            this.tableLayoutPanelWillBring.Name = "tableLayoutPanelWillBring";
+            this.tableLayoutPanelWillBring.RowCount = 1;
+            this.tableLayoutPanelWillBring.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelWillBring.Size = new System.Drawing.Size(231, 29);
+            this.tableLayoutPanelWillBring.TabIndex = 4;
+            // 
+            // buttonWillBringNew
+            // 
+            this.buttonWillBringNew.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillBringNew.Location = new System.Drawing.Point(3, 3);
+            this.buttonWillBringNew.Name = "buttonWillBringNew";
+            this.buttonWillBringNew.Size = new System.Drawing.Size(70, 23);
+            this.buttonWillBringNew.TabIndex = 0;
+            this.buttonWillBringNew.Text = "New";
+            this.buttonWillBringNew.UseVisualStyleBackColor = true;
+            // 
+            // buttonWillBringRem
+            // 
+            this.buttonWillBringRem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillBringRem.Location = new System.Drawing.Point(79, 3);
+            this.buttonWillBringRem.Name = "buttonWillBringRem";
+            this.buttonWillBringRem.Size = new System.Drawing.Size(71, 23);
+            this.buttonWillBringRem.TabIndex = 1;
+            this.buttonWillBringRem.Text = "Remove";
+            this.buttonWillBringRem.UseVisualStyleBackColor = true;
+            // 
+            // buttonWillBringEdt
+            // 
+            this.buttonWillBringEdt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWillBringEdt.Location = new System.Drawing.Point(156, 3);
+            this.buttonWillBringEdt.Name = "buttonWillBringEdt";
+            this.buttonWillBringEdt.Size = new System.Drawing.Size(72, 23);
+            this.buttonWillBringEdt.TabIndex = 2;
+            this.buttonWillBringEdt.Text = "Edit";
+            this.buttonWillBringEdt.UseVisualStyleBackColor = true;
+            // 
+            // labelWillBring
+            // 
+            this.labelWillBring.AutoSize = true;
+            this.labelWillBring.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWillBring.Location = new System.Drawing.Point(0, 0);
+            this.labelWillBring.Name = "labelWillBring";
+            this.labelWillBring.Size = new System.Drawing.Size(74, 16);
+            this.labelWillBring.TabIndex = 3;
+            this.labelWillBring.Text = "Will Bring";
+            // 
             // buttonResetFriend
             // 
             this.buttonResetFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -176,282 +443,16 @@
             this.labelFriendName.TabIndex = 4;
             this.labelFriendName.Text = "Name:";
             // 
-            // radioButtonDietaryYes
+            // listBoxWillBring
             // 
-            this.radioButtonDietaryYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonDietaryYes.AutoSize = true;
-            this.radioButtonDietaryYes.Location = new System.Drawing.Point(139, 19);
-            this.radioButtonDietaryYes.Name = "radioButtonDietaryYes";
-            this.radioButtonDietaryYes.Size = new System.Drawing.Size(43, 17);
-            this.radioButtonDietaryYes.TabIndex = 8;
-            this.radioButtonDietaryYes.Text = "Yes";
-            this.radioButtonDietaryYes.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonDietaryNo
-            // 
-            this.radioButtonDietaryNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonDietaryNo.AutoSize = true;
-            this.radioButtonDietaryNo.Checked = true;
-            this.radioButtonDietaryNo.Location = new System.Drawing.Point(196, 19);
-            this.radioButtonDietaryNo.Name = "radioButtonDietaryNo";
-            this.radioButtonDietaryNo.Size = new System.Drawing.Size(39, 17);
-            this.radioButtonDietaryNo.TabIndex = 9;
-            this.radioButtonDietaryNo.TabStop = true;
-            this.radioButtonDietaryNo.Text = "No";
-            this.radioButtonDietaryNo.UseVisualStyleBackColor = true;
-            // 
-            // labelDietary
-            // 
-            this.labelDietary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelDietary.AutoSize = true;
-            this.labelDietary.Location = new System.Drawing.Point(136, 0);
-            this.labelDietary.Name = "labelDietary";
-            this.labelDietary.Size = new System.Drawing.Size(98, 13);
-            this.labelDietary.TabIndex = 10;
-            this.labelDietary.Text = "Dietary Restrictions";
-            // 
-            // labelCanDrink
-            // 
-            this.labelCanDrink.AutoSize = true;
-            this.labelCanDrink.Location = new System.Drawing.Point(3, 0);
-            this.labelCanDrink.Name = "labelCanDrink";
-            this.labelCanDrink.Size = new System.Drawing.Size(101, 13);
-            this.labelCanDrink.TabIndex = 11;
-            this.labelCanDrink.Text = "Over 18 (Can Drink)";
-            // 
-            // radioButtonCanDrinkYes
-            // 
-            this.radioButtonCanDrinkYes.AutoSize = true;
-            this.radioButtonCanDrinkYes.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonCanDrinkYes.Name = "radioButtonCanDrinkYes";
-            this.radioButtonCanDrinkYes.Size = new System.Drawing.Size(43, 17);
-            this.radioButtonCanDrinkYes.TabIndex = 12;
-            this.radioButtonCanDrinkYes.Text = "Yes";
-            this.radioButtonCanDrinkYes.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonCanDrinkNo
-            // 
-            this.radioButtonCanDrinkNo.AutoSize = true;
-            this.radioButtonCanDrinkNo.Checked = true;
-            this.radioButtonCanDrinkNo.Location = new System.Drawing.Point(65, 19);
-            this.radioButtonCanDrinkNo.Name = "radioButtonCanDrinkNo";
-            this.radioButtonCanDrinkNo.Size = new System.Drawing.Size(39, 17);
-            this.radioButtonCanDrinkNo.TabIndex = 13;
-            this.radioButtonCanDrinkNo.TabStop = true;
-            this.radioButtonCanDrinkNo.Text = "No";
-            this.radioButtonCanDrinkNo.UseVisualStyleBackColor = true;
-            // 
-            // panelDietary
-            // 
-            this.panelDietary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelDietary.Controls.Add(this.labelDietary);
-            this.panelDietary.Controls.Add(this.radioButtonDietaryYes);
-            this.panelDietary.Controls.Add(this.radioButtonDietaryNo);
-            this.panelDietary.Location = new System.Drawing.Point(3, 3);
-            this.panelDietary.Name = "panelDietary";
-            this.panelDietary.Size = new System.Drawing.Size(238, 39);
-            this.panelDietary.TabIndex = 14;
-            // 
-            // panelCanDrink
-            // 
-            this.panelCanDrink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelCanDrink.Controls.Add(this.labelCanDrink);
-            this.panelCanDrink.Controls.Add(this.radioButtonCanDrinkYes);
-            this.panelCanDrink.Controls.Add(this.radioButtonCanDrinkNo);
-            this.panelCanDrink.Location = new System.Drawing.Point(247, 3);
-            this.panelCanDrink.Name = "panelCanDrink";
-            this.panelCanDrink.Size = new System.Drawing.Size(241, 39);
-            this.panelCanDrink.TabIndex = 15;
-            // 
-            // tableLayoutPanel
-            // 
-            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listBoxWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.77778F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.22222F));
-            this.tableLayoutPanel.Controls.Add(this.panel2, 1, 1);
-            this.tableLayoutPanel.Controls.Add(this.panelDietary, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.panelCanDrink);
-            this.tableLayoutPanel.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel.Location = new System.Drawing.Point(7, 62);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 2;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(491, 383);
-            this.tableLayoutPanel.TabIndex = 16;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.checkedListBoxWillBring);
-            this.panel1.Controls.Add(this.tableLayoutPanelWillBring);
-            this.panel1.Controls.Add(this.labelWillBring);
-            this.panel1.Location = new System.Drawing.Point(3, 48);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(238, 332);
-            this.panel1.TabIndex = 16;
-            // 
-            // buttonWillBringNew
-            // 
-            this.buttonWillBringNew.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillBringNew.Location = new System.Drawing.Point(3, 3);
-            this.buttonWillBringNew.Name = "buttonWillBringNew";
-            this.buttonWillBringNew.Size = new System.Drawing.Size(70, 23);
-            this.buttonWillBringNew.TabIndex = 0;
-            this.buttonWillBringNew.Text = "New";
-            this.buttonWillBringNew.UseVisualStyleBackColor = true;
-            // 
-            // buttonWillBringRem
-            // 
-            this.buttonWillBringRem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillBringRem.Location = new System.Drawing.Point(79, 3);
-            this.buttonWillBringRem.Name = "buttonWillBringRem";
-            this.buttonWillBringRem.Size = new System.Drawing.Size(71, 23);
-            this.buttonWillBringRem.TabIndex = 1;
-            this.buttonWillBringRem.Text = "Remove";
-            this.buttonWillBringRem.UseVisualStyleBackColor = true;
-            // 
-            // buttonWillBringEdit
-            // 
-            this.buttonWillBringEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillBringEdit.Location = new System.Drawing.Point(156, 3);
-            this.buttonWillBringEdit.Name = "buttonWillBringEdit";
-            this.buttonWillBringEdit.Size = new System.Drawing.Size(72, 23);
-            this.buttonWillBringEdit.TabIndex = 2;
-            this.buttonWillBringEdit.Text = "Edit";
-            this.buttonWillBringEdit.UseVisualStyleBackColor = true;
-            // 
-            // labelWillBring
-            // 
-            this.labelWillBring.AutoSize = true;
-            this.labelWillBring.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWillBring.Location = new System.Drawing.Point(0, 0);
-            this.labelWillBring.Name = "labelWillBring";
-            this.labelWillBring.Size = new System.Drawing.Size(74, 16);
-            this.labelWillBring.TabIndex = 3;
-            this.labelWillBring.Text = "Will Bring";
-            // 
-            // tableLayoutPanelWillBring
-            // 
-            this.tableLayoutPanelWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelWillBring.ColumnCount = 3;
-            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.tableLayoutPanelWillBring.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringNew, 0, 0);
-            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringRem, 1, 0);
-            this.tableLayoutPanelWillBring.Controls.Add(this.buttonWillBringEdit, 2, 0);
-            this.tableLayoutPanelWillBring.Location = new System.Drawing.Point(3, 19);
-            this.tableLayoutPanelWillBring.Name = "tableLayoutPanelWillBring";
-            this.tableLayoutPanelWillBring.RowCount = 1;
-            this.tableLayoutPanelWillBring.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelWillBring.Size = new System.Drawing.Size(231, 29);
-            this.tableLayoutPanelWillBring.TabIndex = 4;
-            // 
-            // checkedListBoxWillBring
-            // 
-            this.checkedListBoxWillBring.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkedListBoxWillBring.FormattingEnabled = true;
-            this.checkedListBoxWillBring.Location = new System.Drawing.Point(6, 52);
-            this.checkedListBoxWillBring.Name = "checkedListBoxWillBring";
-            this.checkedListBoxWillBring.Size = new System.Drawing.Size(225, 274);
-            this.checkedListBoxWillBring.TabIndex = 5;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.checkedListBoxWillWant);
-            this.panel2.Controls.Add(this.tableLayoutPanel1);
-            this.panel2.Controls.Add(this.labelWillWant);
-            this.panel2.Location = new System.Drawing.Point(247, 48);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(241, 332);
-            this.panel2.TabIndex = 17;
-            // 
-            // checkedListBoxWillWant
-            // 
-            this.checkedListBoxWillWant.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkedListBoxWillWant.FormattingEnabled = true;
-            this.checkedListBoxWillWant.Location = new System.Drawing.Point(6, 52);
-            this.checkedListBoxWillWant.Name = "checkedListBoxWillWant";
-            this.checkedListBoxWillWant.Size = new System.Drawing.Size(228, 274);
-            this.checkedListBoxWillWant.TabIndex = 5;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantNew, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantRem, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonWillWantEdit, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 19);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(234, 29);
-            this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // buttonWillWantNew
-            // 
-            this.buttonWillWantNew.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillWantNew.Location = new System.Drawing.Point(3, 3);
-            this.buttonWillWantNew.Name = "buttonWillWantNew";
-            this.buttonWillWantNew.Size = new System.Drawing.Size(71, 23);
-            this.buttonWillWantNew.TabIndex = 0;
-            this.buttonWillWantNew.Text = "New";
-            this.buttonWillWantNew.UseVisualStyleBackColor = true;
-            // 
-            // buttonWillWantRem
-            // 
-            this.buttonWillWantRem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillWantRem.Location = new System.Drawing.Point(80, 3);
-            this.buttonWillWantRem.Name = "buttonWillWantRem";
-            this.buttonWillWantRem.Size = new System.Drawing.Size(72, 23);
-            this.buttonWillWantRem.TabIndex = 1;
-            this.buttonWillWantRem.Text = "Remove";
-            this.buttonWillWantRem.UseVisualStyleBackColor = true;
-            // 
-            // buttonWillWantEdit
-            // 
-            this.buttonWillWantEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWillWantEdit.Location = new System.Drawing.Point(158, 3);
-            this.buttonWillWantEdit.Name = "buttonWillWantEdit";
-            this.buttonWillWantEdit.Size = new System.Drawing.Size(73, 23);
-            this.buttonWillWantEdit.TabIndex = 2;
-            this.buttonWillWantEdit.Text = "Edit";
-            this.buttonWillWantEdit.UseVisualStyleBackColor = true;
-            // 
-            // labelWillWant
-            // 
-            this.labelWillWant.AutoSize = true;
-            this.labelWillWant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWillWant.Location = new System.Drawing.Point(0, 0);
-            this.labelWillWant.Name = "labelWillWant";
-            this.labelWillWant.Size = new System.Drawing.Size(73, 16);
-            this.labelWillWant.TabIndex = 3;
-            this.labelWillWant.Text = "Will Want";
+            this.listBoxWillBring.FormattingEnabled = true;
+            this.listBoxWillBring.Location = new System.Drawing.Point(6, 50);
+            this.listBoxWillBring.Name = "listBoxWillBring";
+            this.listBoxWillBring.Size = new System.Drawing.Size(225, 277);
+            this.listBoxWillBring.TabIndex = 6;
             // 
             // JasonAndFriends
             // 
@@ -465,17 +466,17 @@
             this.Load += new System.EventHandler(this.JasonAndFriends_Load);
             this.panelFriendInfo.ResumeLayout(false);
             this.panelFriendInfo.PerformLayout();
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.panelDietary.ResumeLayout(false);
             this.panelDietary.PerformLayout();
             this.panelCanDrink.ResumeLayout(false);
             this.panelCanDrink.PerformLayout();
-            this.tableLayoutPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tableLayoutPanelWillBring.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -501,18 +502,18 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelWillBring;
-        private System.Windows.Forms.Button buttonWillBringEdit;
+        private System.Windows.Forms.Button buttonWillBringEdt;
         private System.Windows.Forms.Button buttonWillBringRem;
         private System.Windows.Forms.Button buttonWillBringNew;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelWillBring;
-        private System.Windows.Forms.CheckedListBox checkedListBoxWillBring;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.CheckedListBox checkedListBoxWillWant;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonWillWantNew;
         private System.Windows.Forms.Button buttonWillWantRem;
-        private System.Windows.Forms.Button buttonWillWantEdit;
+        private System.Windows.Forms.Button buttonWillWantEdt;
         private System.Windows.Forms.Label labelWillWant;
+        private System.Windows.Forms.ListBox listBoxWillBring;
     }
 }
 

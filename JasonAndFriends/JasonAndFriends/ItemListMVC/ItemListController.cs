@@ -14,6 +14,10 @@
 
     public class ItemListController
     {
+        #region Events
+
+        #endregion Events
+
         #region Fields
 
         private readonly object listLock = new object();
@@ -40,6 +44,8 @@
 
         #endregion Parameters
 
+        #region Constructors
+
         public ItemListController(ItemListView itemListView)
         {
             this.view = itemListView ?? throw new ArgumentNullException();
@@ -54,6 +60,19 @@
             }
         }
 
+        public ItemListController(ItemListView itemListView, List<Item> items) : this(itemListView)
+        {
+            lock (listLock)
+            {
+                this.items = items;
+
+                this.data = SerializeItems(this.items);
+
+                SetItemsToView(this.view, this.items);
+            }
+        }
+
+        #endregion Constructors
 
         #region Methods
 
@@ -63,7 +82,7 @@
         {
             DelViewEventHandlers(view);
 
-            items.Sort();
+            items.Sort(new ItemComparer(true));
             view.SetItems(items);
 
             AddViewEventHandlers(view);
@@ -71,12 +90,14 @@
 
         private void AddViewEventHandlers(ItemListView view)
         {
-            // ...
+            this.view.RemItemRequested += new EventHandler(ButtonRemove_Click);
+            this.view.EdtItemRequested += new EventHandler(ButtonEdit_Click);
         }
 
         private void DelViewEventHandlers(ItemListView view)
         {
-            // ...
+            this.view.RemItemRequested -= new EventHandler(ButtonRemove_Click);
+            this.view.EdtItemRequested -= new EventHandler(ButtonEdit_Click);
         }
 
         private string SerializeItems(List<Item> items)
@@ -92,6 +113,70 @@
         #endregion Private
 
         #endregion Methods
+
+        #region EventHandlers
+
+        public void ButtonRemove_Click(object sender, EventArgs e)
+        {
+            ListBox lb = this.view?.ListBoxItems;
+
+            if (lb == null) throw new ArgumentNullException("listbox is null");
+
+            if (lb.Items.Count == 0)
+            {
+                MessageBox.Show("No items available for deletion", "Cannot delete");
+                return;
+            }
+
+            int index = lb.SelectedIndex;
+            if (index != -1)
+            {
+                lb.Items.RemoveAt(index);
+                lb.SelectedIndex = index - 1;
+            }
+            else
+            {
+                MessageBox.Show("Please select an item to delete.", "Cannot delete");
+            }
+        }
+
+        public void ButtonEdit_Click(object sender, EventArgs e)
+        {
+            ListBox lb = this.view?.ListBoxItems;
+
+            if (lb == null) throw new ArgumentNullException("listbox is null");
+
+            if (lb.Items.Count == 0)
+            {
+                MessageBox.Show("No items available to edit", "Cannot edit");
+                return;
+            }
+
+            int index = lb.SelectedIndex;
+            if (index != -1)
+            {
+                Item item = (lb.SelectedItem as Item) ?? throw new ArgumentNullException();
+
+                using (ItemForm iform = new ItemForm(item))
+                {
+                    iform.ShowDialog();
+
+                    MessageBox.Show("Within iform");
+
+                }
+
+                MessageBox.Show("Out of iform");
+
+                
+            }
+            else
+            {
+                MessageBox.Show("Please select an item to edit.", "Cannot edit");
+            }
+
+        }
+
+        #endregion EventHandlers
 
     }
 }

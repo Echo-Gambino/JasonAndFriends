@@ -11,11 +11,14 @@
     using System.Windows.Forms;
 
     using FriendSheetMVC;
+    using ItemListMVC;
     using Classes;
 
     public partial class JasonAndFriends : Form
     {
         private FriendSheetController friendSheet;
+
+        private ItemListController itemList;
 
         private ComboBox ComboBoxFriends
         {
@@ -47,6 +50,22 @@
             {
                 this.ComboBoxFriends.Items.Add(fr);
             }
+
+            List<Item> items = new List<Item>()
+            {
+                new Item("Apple"),
+                new Item("Dip"),
+                new Item("Chips")
+            };
+
+            ItemListView view = new ItemListView();
+            view.ButtonNew = this.buttonWillBringNew;
+            view.ButtonRem = this.buttonWillBringRem;
+            view.ButtonEdt = this.buttonWillBringEdt;
+            view.ListBoxItems = this.listBoxWillBring;
+
+            this.itemList = new ItemListController(view, items);
+
         }
 
         private FriendSheetController GenFriendSheetController()
@@ -166,6 +185,7 @@
             this.ComboBoxFriends.SelectedIndex = index;
 
         }
+
 
         #endregion EventHandlers
     }
