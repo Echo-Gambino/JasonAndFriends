@@ -160,9 +160,35 @@
 
         private List<Friend> LoadFriendsFromJsonFile()
         {
-            string dataDir = CheckAndGetDataDir();
+            string dataDir = "";
+            string regJsonFile = "";
 
-            string regJsonFile = dataDir + "\\data.json";
+            while (true)
+            {
+                try
+                {
+                    dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
+
+                    regJsonFile = dataDir + "\\data.json";
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    string curDir = @"C:\ProgramData\JasonAndFriends";
+
+                    Directory.CreateDirectory(curDir);
+
+                    Directory.SetCurrentDirectory(curDir);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (!File.Exists(regJsonFile))
+            {
+                return new List<Friend>();
+            }
 
             string data = File.ReadAllText(regJsonFile);
 
@@ -171,10 +197,35 @@
 
         private void SaveToJsonFile(List<Friend> friends)
         {
-            string dataDir = CheckAndGetDataDir();
+            //string dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
 
-            string regJsonFile = dataDir + "\\data.json";
+            //string regJsonFile = dataDir + "\\data.json";
             //string swpJsonFile = dataDir + "swp.json";
+
+            string dataDir;
+            string regJsonFile;
+
+            while (true)
+            {
+                try
+                {
+                    dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
+
+                    regJsonFile = dataDir + "\\data.json";
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    string curDir = @"C:\ProgramData\JasonAndFriends";
+
+                    Directory.CreateDirectory(curDir);
+
+                    Directory.SetCurrentDirectory(curDir);
+
+                    continue;
+                }
+
+                break;
+            }
 
             string data = JsonConvert.SerializeObject(friends, Formatting.Indented);
 
@@ -185,11 +236,11 @@
         /// Creates a directory by the name of "Data" on top of the current directory
         /// </summary>
         /// <returns></returns>
-        private string CheckAndGetDataDir()
+        private string CheckAndGetDataDir(string workingDir)
         {
             string dataDir;
 
-            dataDir = Directory.GetCurrentDirectory() + "\\Data";
+            dataDir = workingDir + "\\Data";
 
             if (!Directory.Exists(dataDir))
             {
