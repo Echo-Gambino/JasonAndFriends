@@ -12,7 +12,12 @@
 
     using FriendSheetMVC;
     using ItemListMVC;
+
     using Classes;
+
+    using System.IO;
+
+    using Newtonsoft.Json;
 
     public partial class JasonAndFriends : Form
     {
@@ -39,12 +44,7 @@
         {
             this.friendSheet = GenFriendSheetController();
 
-            List<Friend> friends = new List<Friend>();
-
-            friends.Add(new Friend("Abba"));
-            friends.Add(new Friend("Charles"));
-            friends.Add(new Friend("Mike"));
-            friends.Add(new Friend("Peter"));
+            List<Friend> friends = LoadFriendsFromJsonFile() ?? new List<Friend>();
 
             foreach (Friend fr in friends)
             {
@@ -54,6 +54,40 @@
             this.listBring = GenWillBringListController();
             this.listWant = GenWillWantListController();
 
+        }
+
+        private void JasonAndFriends_Closing(object sender, FormClosingEventArgs e)
+        {
+            bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
+            if (!saved)
+            {
+                DialogResult result = DataNotSavedDialog();
+                switch (result)
+                {
+                    case DialogResult.OK:
+                        DialogResult saveStatus = PerformSaveOpWithDialog();
+
+                        if (saveStatus == DialogResult.Abort)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        break;
+                    case DialogResult.No:
+                        break; // Does nothing and lets the process continue closing
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        return; // Cancels the process and exits before the data is saved into the Json file
+                    default:
+                        throw new NotSupportedException();
+                }
+
+            }
+
+            List<Friend> friends = GenFriendListFromComboBox(this.ComboBoxFriends);
+
+            SaveToJsonFile(friends);
         }
 
         private ItemListController GenWillBringListController()
@@ -124,6 +158,82 @@
 
         #region Private Methods
 
+        private List<Friend> LoadFriendsFromJsonFile()
+        {
+            string dataDir = CheckAndGetDataDir();
+
+            string regJsonFile = dataDir + "\\data.json";
+
+            string data = File.ReadAllText(regJsonFile);
+
+            return JsonConvert.DeserializeObject<List<Friend>>(data);
+        }
+
+        private void SaveToJsonFile(List<Friend> friends)
+        {
+            string dataDir = CheckAndGetDataDir();
+
+            string regJsonFile = dataDir + "\\data.json";
+            //string swpJsonFile = dataDir + "swp.json";
+
+            string data = JsonConvert.SerializeObject(friends, Formatting.Indented);
+
+            File.WriteAllText(regJsonFile, data);
+        }
+
+        /// <summary>
+        /// Creates a directory by the name of "Data" on top of the current directory
+        /// </summary>
+        /// <returns></returns>
+        private string CheckAndGetDataDir()
+        {
+            string dataDir;
+
+            dataDir = Directory.GetCurrentDirectory() + "\\Data";
+
+            if (!Directory.Exists(dataDir))
+            {
+                Directory.CreateDirectory(dataDir);
+            }
+
+            return dataDir;
+        }
+
+        private List<Friend> GenFriendListFromComboBox(ComboBox comboBox)
+        {
+            List<Friend> friends = new List<Friend>();
+
+            foreach (Friend fr in comboBox.Items)
+            {
+                friends.Add(fr);
+            }
+
+            return friends;
+        }
+
+        private DialogResult PerformSaveOpWithDialog()
+        {
+            DialogResult latestResult = DialogResult.None;
+
+            while (true)
+            {
+                bool success = PerformSaveOp();
+                if (!success)
+                {
+                    latestResult = MessageBox.Show(
+                        "Error: Save operation failed.\nTry Again?",
+                        "Save Failure", 
+                        MessageBoxButtons.AbortRetryIgnore);
+
+                    if (latestResult == DialogResult.Retry) continue;
+                }
+
+                break;
+            }
+
+            return latestResult;
+        }
+
         private bool PerformSaveOp()
         {
             // Check if saving is valid
@@ -179,14 +289,32 @@
         /// Checks if there is any unsaved data.
         /// </summary>
         /// <returns>True if data has been saved, False if data has not been saved</returns>
-        private bool CheckUnsavedData(FriendSheetController friendSheet)
+        private bool CheckUnsavedData(
+            FriendSheetController friendSheet,
+            ItemListController broughtItemList,
+            ItemListController wantedItemList
+            )
         {
             if (friendSheet == null) throw new ArgumentNullException();
 
             string curData = friendSheet.FriendData;
             string savData = friendSheet.SavedData;
 
-            return (curData == savData);
+            if (curData != savData) return false;
+
+            Friend friend = friendSheet.Friend;
+
+            string cbi = JsonConvert.SerializeObject(broughtItemList.Items);
+            string sbi = JsonConvert.SerializeObject(friend.ListBring);
+
+            if (cbi != sbi) return false;
+
+            string cwi = JsonConvert.SerializeObject(wantedItemList.Items);
+            string swi = JsonConvert.SerializeObject(friend.ListWant);
+
+            if (cwi != swi) return false;
+
+            return true;
         }
 
         /// <summary>
@@ -210,7 +338,7 @@
             ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
 
             // Unsaved changes check
-            bool saved = CheckUnsavedData(this.friendSheet);
+            bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
             if (!saved)
             {
                 switch (DataNotSavedDialog())
@@ -278,6 +406,17 @@
                 this.friendSheet.SetFriend(new Friend());
             }
 
+            if (index == 0)
+            {
+                this.friendSheet.SetFriend(new Friend());
+
+                List<Item> broughtItems = friend.ListBring;
+                List<Item> wantedItems = friend.ListWant;
+
+                this.listBring.SetItems(broughtItems);
+                this.listWant.SetItems(wantedItems);
+            }
+
             // Set the selected index to be one entry above position 
             // of the recently removed item
             this.ComboBoxFriends.SelectedIndex = index - 1;
@@ -287,7 +426,7 @@
         private void buttonNewFriend_Click(object sender, EventArgs e)
         {
             // Unsaved changes check
-            bool saved = CheckUnsavedData(this.friendSheet);
+            bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
             if (!saved)
             {
                 switch (DataNotSavedDialog())

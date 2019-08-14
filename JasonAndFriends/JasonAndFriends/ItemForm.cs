@@ -119,18 +119,17 @@
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            string curData = JsonConvert.SerializeObject(this.item, Formatting.Indented);
-            if (curData != this.data)
-            {
-                // MessageBox.Show(string.Format("{0}\n\n{1}", curData, this.data));
+            //string curData = JsonConvert.SerializeObject(this.item, Formatting.Indented);
+            //if (curData != this.data)
+            //{
+            //    // MessageBox.Show(string.Format("{0}\n\n{1}", curData, this.data));
 
-                string mainMsg = "You have made some changes in the item that are still unsaved.\n";
-                mainMsg += "Continue to exit?";
-                DialogResult result = MessageBox.Show(mainMsg, "Unsaved Changes Detected", MessageBoxButtons.YesNo);
+            //    string mainMsg = "You have made some changes in the item that are still unsaved.\n";
+            //    mainMsg += "Continue to exit?";
+            //    DialogResult result = MessageBox.Show(mainMsg, "Unsaved Changes Detected", MessageBoxButtons.YesNo);
 
-                if (result == DialogResult.No) return;
-            }
-
+            //    if (result == DialogResult.No) return;
+            //}
 
             this.DialogResult = DialogResult.Cancel;
 
@@ -149,7 +148,6 @@
             {
                 this.item.Quantity = (int)nup.Value;
             }
-
         }
 
         private void comboBoxItemName_TextChanged(object sender, EventArgs e)
@@ -202,5 +200,33 @@
 
         #endregion Event Handler
 
+        private void ItemForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ItemForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            string name = this.comboBoxItemName.Text;
+            int quantity = (int)this.numericUpDownItemQuantity.Value;
+
+            this.item.Name = name;
+            this.item.Quantity = quantity;
+
+            string curData = JsonConvert.SerializeObject(this.item, Formatting.Indented);
+            if (curData != this.data)
+            {
+                string mainMsg = "You have made some changes in the item that are still unsaved.\n";
+                mainMsg += "Continue to exit?";
+                DialogResult result = MessageBox.Show(mainMsg, "Unsaved Changes Detected", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+        }
     }
 }

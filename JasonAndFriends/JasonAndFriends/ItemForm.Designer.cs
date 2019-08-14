@@ -161,6 +161,8 @@
             this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "ItemForm";
             this.Text = "ItemForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ItemForm_Closing);
+            this.Load += new System.EventHandler(this.ItemForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemQuantity)).EndInit();
             this.tableLayoutPanelItems.ResumeLayout(false);
             this.ResumeLayout(false);

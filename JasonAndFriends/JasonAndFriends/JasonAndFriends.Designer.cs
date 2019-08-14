@@ -467,6 +467,7 @@
             this.Name = "JasonAndFriends";
             this.Text = "Jason and his friends";
             this.Load += new System.EventHandler(this.JasonAndFriends_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.JasonAndFriends_Closing);
             this.panelFriendInfo.ResumeLayout(false);
             this.panelFriendInfo.PerformLayout();
             this.tableLayoutPanel.ResumeLayout(false);
