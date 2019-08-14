@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" 
+           Name="JasonAndFriendsInstaller" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="Echo-Gambino"
+           UpgradeCode="b2efe31e-ab72-40de-94aa-e191f76b9b6f">
+    
+		<Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Description="!(loc.Description)"
+             Keywords="!(loc.Keywords)"
+             Comments="!(loc.Comments)"
+             Languages="!(loc.Language)"
+             />
+
+    <Property Id="ApplicationFolderName" Value="JasonAndFriends" />
+    
+		<MajorUpgrade DowngradeErrorMessage="A newer version of Jason And Friends is already installed." />
+
+    <!-- include .cab file into .msi file -->
+    <MediaTemplate EmbedCab="yes"/>
+
+    <!-- Create a basic UI for the installer (built-in for WiX) -->
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+		<Feature Id="ProductFeature" Title="JasonAndFriends.Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="JasonAndFriends" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="3D62B78E-0CCA-4C52-81D4-2C36AFA4F22F">
+        <File Id="JsonAndFriendsEXE" Name="JasonAndFriends.exe" DiskId="1"
+              Source="$(var.JasonAndFriends.TargetPath)" Vital="yes" KeyPath="yes"/>
+        <File Id="NewtonJsonDLL" Name="Newtonsoft.Json.dll" DiskId="1"
+              Source="$(var.JasonAndFriends.TargetDir)" Vital="yes" KeyPath="no"/>
+      </Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
