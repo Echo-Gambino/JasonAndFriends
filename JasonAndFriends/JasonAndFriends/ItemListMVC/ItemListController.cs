@@ -24,6 +24,8 @@
 
         private readonly object listLock = new object();
 
+        private string itemName;
+
         private ItemListView view;
 
         private List<Item> items;
@@ -33,6 +35,12 @@
         #endregion Fields
 
         #region Parameters
+
+        public string ItemName
+        {
+            get { return this.itemName; }
+            set { this.itemName = value; }
+        }
 
         public ItemListView ItemListView
         {
@@ -66,6 +74,8 @@
         public ItemListController(ItemListView itemListView)
         {
             this.view = itemListView ?? throw new ArgumentNullException();
+
+            this.itemName = "Item";
 
             lock (listLock)
             {
@@ -161,12 +171,14 @@
 
         #region Private
 
-        private Item OpenItemFormDialog(Item input = null)
+        private Item OpenItemFormDialog(string formTitle, Item input = null)
         {
             Item output = null;
 
             using (ItemForm iform = new ItemForm(input))
             {
+                iform.Text = formTitle;
+
                 DialogResult result = iform.ShowDialog();
 
                 if (result == DialogResult.OK)
@@ -262,7 +274,7 @@
             {
                 Item item = (lb.SelectedItem as Item) ?? throw new ArgumentNullException();
 
-                Item newItem = OpenItemFormDialog(item);
+                Item newItem = OpenItemFormDialog(string.Format("Edit {0}", this.ItemName), item);
 
                 if (newItem != null)
                 {
@@ -281,7 +293,7 @@
 
             if (lb == null) throw new ArgumentNullException("listbox is null");
 
-            Item newItem = OpenItemFormDialog();
+            Item newItem = OpenItemFormDialog(string.Format("New {0}", this.ItemName));
 
             if (newItem != null)
             {

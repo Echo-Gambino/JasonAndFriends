@@ -67,6 +67,13 @@
             this.numericUpDownItemQuantity.Value = item.Quantity;
         }
 
+        private void ResetFields()
+        {
+            this.item = DeserializeItem(this.data);
+
+            DisplayItemParams(this.item);
+        }
+
         private string SerializeItem(Item item)
         {
             return JsonConvert.SerializeObject(item, Formatting.Indented);
@@ -83,21 +90,22 @@
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            this.item = DeserializeItem(this.data);
-
-            DisplayItemParams(this.item);
+            ResetFields();
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             // Check for invalid user inputs 
             string itemName = this.comboBoxItemName.Text;
-            if ((itemName == EMPTY_NAME_PROMPT) || (itemName == ""))
+            if ((itemName == EMPTY_NAME_PROMPT) || string.IsNullOrWhiteSpace(itemName))
             {
                 MessageBox.Show(
                     "Item name is not valid, please specify an item name", 
                     "Cannot Confirm Changes",
                     MessageBoxButtons.OK);
+
+                ResetFields();
+
                 return;
             }
 
@@ -114,7 +122,7 @@
             string curData = JsonConvert.SerializeObject(this.item, Formatting.Indented);
             if (curData != this.data)
             {
-                MessageBox.Show(string.Format("{0}\n\n{1}", curData, this.data));
+                // MessageBox.Show(string.Format("{0}\n\n{1}", curData, this.data));
 
                 string mainMsg = "You have made some changes in the item that are still unsaved.\n";
                 mainMsg += "Continue to exit?";

@@ -18,7 +18,9 @@
 
         private bool canDrink;
 
-        private List<Item> items;
+        private List<Item> listBring;
+
+        private List<Item> listWant;
 
         #endregion Fields
 
@@ -42,10 +44,16 @@
             set { this.canDrink = value; }
         }
 
-        public List<Item> ItemList
+        public List<Item> ListBring
         {
-            get { return this.items; }
-            set { this.items = value; }
+            get { return this.listBring; }
+            set { this.listBring = value; }
+        }
+
+        public List<Item> ListWant
+        {
+            get { return this.listWant; }
+            set { this.listWant = value; }
         }
 
         #endregion Parameters
@@ -60,7 +68,8 @@
             this.dietaryRestrictions = false;
             this.canDrink = false;
 
-            this.items = new List<Item>();
+            this.listBring = new List<Item>();
+            this.listWant = new List<Item>();
         }
 
         public Friend(string name) : this()

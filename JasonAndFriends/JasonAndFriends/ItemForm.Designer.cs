@@ -156,7 +156,8 @@
             this.Controls.Add(this.comboBoxItemName);
             this.Controls.Add(this.numericUpDownItemQuantity);
             this.Controls.Add(this.labelItemQuantity);
-            this.MaximumSize = new System.Drawing.Size(400, 400);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(300, 200);
             this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "ItemForm";
             this.Text = "ItemForm";

@@ -18,7 +18,9 @@
     {
         private FriendSheetController friendSheet;
 
-        private ItemListController itemList;
+        private ItemListController listBring;
+
+        private ItemListController listWant;
 
         private ComboBox ComboBoxFriends
         {
@@ -37,8 +39,6 @@
         {
             this.friendSheet = GenFriendSheetController();
 
-
-
             List<Friend> friends = new List<Friend>();
 
             friends.Add(new Friend("Abba"));
@@ -51,20 +51,12 @@
                 this.ComboBoxFriends.Items.Add(fr);
             }
 
-            //List<Item> items = new List<Item>()
-            //{
-            //    new Item("Apple"),
-            //    new Item("Dip"),
-            //    new Item("Chips")
-            //};
-
-            this.itemList = GenItemListController();
-
-            //this.itemList.SetItems(items);
+            this.listBring = GenWillBringListController();
+            this.listWant = GenWillWantListController();
 
         }
 
-        private ItemListController GenItemListController()
+        private ItemListController GenWillBringListController()
         {
             ItemListController controller;
             ItemListView view;
@@ -74,9 +66,32 @@
             view.ButtonNew = this.buttonWillBringNew;
             view.ButtonRem = this.buttonWillBringRem;
             view.ButtonEdt = this.buttonWillBringEdt;
+
             view.ListBoxItems = this.listBoxWillBring;
 
             controller = new ItemListController(view);
+
+            controller.ItemName = "Brought Item";
+
+            return controller;
+        }
+
+        private ItemListController GenWillWantListController()
+        {
+            ItemListController controller;
+            ItemListView view;
+
+            view = new ItemListView();
+
+            view.ButtonNew = this.buttonWillWantNew;
+            view.ButtonRem = this.buttonWillWantRem;
+            view.ButtonEdt = this.buttonWillWantEdt;
+
+            view.ListBoxItems = this.listBoxWillWant;
+
+            controller = new ItemListController(view);
+
+            controller.ItemName = "Wanted Item";
 
             return controller;
         }
@@ -109,14 +124,30 @@
 
         #region Private Methods
 
-        private void PerformSaveOp()
+        private bool PerformSaveOp()
         {
+            // Check if saving is valid
+            bool notValid = string.IsNullOrWhiteSpace(this.friendSheet.Friend.Name);
+            if (notValid)
+            {
+                MessageBox.Show(
+                    "Saving failed, name cannot be empty or only have whitespace", 
+                    "Cannot save",
+                    MessageBoxButtons.OK);
+                return false;
+            }
+
+            // Save friend sheet
             this.friendSheet.SaveFriend();
-            this.itemList.SaveItemList();
+
+            // Save lists 
+            this.listBring.SaveItemList();
+            this.listWant.SaveItemList();
 
             Friend friend = this.friendSheet.Friend;
 
-            friend.ItemList = this.itemList.Items;
+            friend.ListBring = this.listBring.Items;
+            friend.ListWant = this.listWant.Items;
 
             int index = this.ComboBoxFriends.SelectedIndex;
 
@@ -124,16 +155,50 @@
 
             if (index == -1)
             {
+                // If index is -1 (new entry) then prepare the index to be 0 for later insertion
                 index = 0;
             }
             else
             {
+                // If index is something other than -1 (existing entry), remove the entry at that index 
+                // (supposedly the friend object with "outdated" params) to have the new friend entry 
+                // be added in as a replacement.
                 items.RemoveAt(index);
             }
 
+            // Insert the friend object at the designated index
             items.Insert(index, friend);
 
+            // Have the combo box select the entry corresponding to that index
             this.ComboBoxFriends.SelectedIndex = index;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if there is any unsaved data.
+        /// </summary>
+        /// <returns>True if data has been saved, False if data has not been saved</returns>
+        private bool CheckUnsavedData(FriendSheetController friendSheet)
+        {
+            if (friendSheet == null) throw new ArgumentNullException();
+
+            string curData = friendSheet.FriendData;
+            string savData = friendSheet.SavedData;
+
+            return (curData == savData);
+        }
+
+        /// <summary>
+        /// Shows a generic "unsaved changes" dialog box with an "Yes", "No", and "Cancel" button for the user to input
+        /// </summary>
+        /// <returns>The resulting button inputs from the user</returns>
+        private DialogResult DataNotSavedDialog()
+        {
+            return MessageBox.Show(
+                    "There are unsaved changes in the program!\nSave Changes?",
+                    "Unsaved Changes Detected",
+                    MessageBoxButtons.YesNoCancel);
         }
 
         #endregion Private Methods
@@ -144,29 +209,21 @@
         {
             ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
 
-            Friend friend = this.friendSheet.Friend;
-
-            string curData = this.friendSheet.FriendData;
-            string savData = this.friendSheet.SavedData;
-
-            if (curData != savData)
+            // Unsaved changes check
+            bool saved = CheckUnsavedData(this.friendSheet);
+            if (!saved)
             {
-                DialogResult result = MessageBox.Show(
-                    "There are unsaved changes in the program!\nSave Changes?", 
-                    "Unsaved Changes Detected",
-                    MessageBoxButtons.YesNoCancel);
-
-                switch (result)
+                switch (DataNotSavedDialog())
                 {
                     case DialogResult.Yes:
-                        PerformSaveOp();
+                        bool success = PerformSaveOp();
+                        this.ComboBoxFriends.DroppedDown = success;
                         break;
                     case DialogResult.No:
                         this.ComboBoxFriends.DroppedDown = true;
                         break;
                     case DialogResult.Cancel:
                         this.ComboBoxFriends.DroppedDown = false;
-                        //this.ComboBoxFriends.AllowDrop = false;
                         break;
                     default:
                         throw new NotSupportedException("DialogResult not accounted for");
@@ -182,8 +239,11 @@
 
             this.friendSheet.SetFriend(friend);
 
-            List<Item> items = friend.ItemList;
-            this.itemList.SetItems(items);
+            List<Item> broughtItems = friend.ListBring;
+            List<Item> wantedItems = friend.ListWant;
+
+            this.listBring.SetItems(broughtItems);
+            this.listWant.SetItems(wantedItems);
 
         }
 
@@ -226,6 +286,27 @@
 
         private void buttonNewFriend_Click(object sender, EventArgs e)
         {
+            // Unsaved changes check
+            bool saved = CheckUnsavedData(this.friendSheet);
+            if (!saved)
+            {
+                switch (DataNotSavedDialog())
+                {
+                    case DialogResult.Yes:
+                        bool success = PerformSaveOp(); // Save the information
+                        if (success)
+                            break;
+                        else
+                            return;
+                    case DialogResult.No:
+                        break; // Let the process pass through
+                    case DialogResult.Cancel:
+                        return; // exit from the function
+                    default:
+                        throw new NotSupportedException("DialogResult not accounted for");
+                }
+            }
+
             // Retrieve comboBox
             if (this.ComboBoxFriends == null) throw new NullReferenceException("ComboBox is null");
 
@@ -234,36 +315,17 @@
 
         private void buttonResetFriend_Click(object sender, EventArgs e)
         {
+            // Reset friend sheet
             this.friendSheet.ResetFriend();
-            this.itemList.ResetItemList();
+
+            // Reset item lists
+            this.listBring.ResetItemList();
+            this.listWant.ResetItemList();
         }
 
         private void buttonSaveFriend_Click(object sender, EventArgs e)
         {
-            this.friendSheet.SaveFriend();
-            this.itemList.SaveItemList();
-
-            Friend friend = this.friendSheet.Friend;
-
-            friend.ItemList = this.itemList.Items;
-
-            int index = this.ComboBoxFriends.SelectedIndex;
-
-            ComboBox.ObjectCollection items = this.ComboBoxFriends.Items;
-
-            if (index == -1)
-            {
-                index = 0;
-            }
-            else
-            {
-                items.RemoveAt(index);
-            }
-
-            items.Insert(index, friend);
-
-            this.ComboBoxFriends.SelectedIndex = index;
-
+            PerformSaveOp();
         }
 
         private void textBoxFriendName_TextChanged(object sender, EventArgs e)
