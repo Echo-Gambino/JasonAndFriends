@@ -61,10 +61,9 @@
             bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
             if (!saved)
             {
-                DialogResult result = DataNotSavedDialog();
-                switch (result)
+                switch (DataNotSavedDialog())
                 {
-                    case DialogResult.OK:
+                    case DialogResult.Yes:
                         DialogResult saveStatus = PerformSaveOpWithDialog();
 
                         if (saveStatus == DialogResult.Abort)
@@ -181,6 +180,18 @@
 
                     continue;
                 }
+                catch (Exception ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendLine(ex.GetType().ToString());
+                    sb.AppendLine();
+                    sb.AppendLine(ex.Message);
+                    sb.AppendLine();
+                    sb.AppendLine(ex.StackTrace);
+
+                    MessageBox.Show(sb.ToString(), ex.Source + " Error!");
+                }
 
                 break;
             }
@@ -197,11 +208,6 @@
 
         private void SaveToJsonFile(List<Friend> friends)
         {
-            //string dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
-
-            //string regJsonFile = dataDir + "\\data.json";
-            //string swpJsonFile = dataDir + "swp.json";
-
             string dataDir;
             string regJsonFile;
 
@@ -222,6 +228,20 @@
                     Directory.SetCurrentDirectory(curDir);
 
                     continue;
+                }
+                catch (Exception ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendLine(ex.GetType().ToString());
+                    sb.AppendLine();
+                    sb.AppendLine(ex.Message);
+                    sb.AppendLine();
+                    sb.AppendLine(ex.StackTrace);
+
+                    MessageBox.Show(sb.ToString(), ex.Source + " Error!");
+
+                    return;
                 }
 
                 break;
