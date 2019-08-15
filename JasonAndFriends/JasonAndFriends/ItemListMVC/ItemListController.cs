@@ -194,7 +194,7 @@
         {
             DelViewEventHandlers(view);
 
-            items.Sort(new ItemComparer(true));
+            if (items.Count != 0) { items.Sort(new ItemComparer(true)); }
             view.SetItems(items);
 
             AddViewEventHandlers(view);

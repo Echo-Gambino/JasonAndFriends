@@ -1,6 +1,7 @@
 ﻿namespace JasonAndFriends
 {
     using System;
+    using System.IO;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
@@ -10,17 +11,19 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    using DataMan = Utils.IODataManagement;
+
     using FriendSheetMVC;
     using ItemListMVC;
 
     using Classes;
 
-    using System.IO;
-
     using Newtonsoft.Json;
 
     public partial class JasonAndFriends : Form
     {
+        private const string SAVE_FILE = "data.json";
+
         private FriendSheetController friendSheet;
 
         private ItemListController listBring;
@@ -40,54 +43,7 @@
             InitializeComponent();
         }
 
-        private void JasonAndFriends_Load(object sender, EventArgs e)
-        {
-            this.friendSheet = GenFriendSheetController();
 
-            List<Friend> friends = LoadFriendsFromJsonFile() ?? new List<Friend>();
-
-            foreach (Friend fr in friends)
-            {
-                this.ComboBoxFriends.Items.Add(fr);
-            }
-
-            this.listBring = GenWillBringListController();
-            this.listWant = GenWillWantListController();
-
-        }
-
-        private void JasonAndFriends_Closing(object sender, FormClosingEventArgs e)
-        {
-            bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
-            if (!saved)
-            {
-                switch (DataNotSavedDialog())
-                {
-                    case DialogResult.Yes:
-                        DialogResult saveStatus = PerformSaveOpWithDialog();
-
-                        if (saveStatus == DialogResult.Abort)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-
-                        break;
-                    case DialogResult.No:
-                        break; // Does nothing and lets the process continue closing
-                    case DialogResult.Cancel:
-                        e.Cancel = true;
-                        return; // Cancels the process and exits before the data is saved into the Json file
-                    default:
-                        throw new NotSupportedException();
-                }
-
-            }
-
-            List<Friend> friends = GenFriendListFromComboBox(this.ComboBoxFriends);
-
-            SaveToJsonFile(friends);
-        }
 
         private ItemListController GenWillBringListController()
         {
@@ -157,119 +113,6 @@
 
         #region Private Methods
 
-        private List<Friend> LoadFriendsFromJsonFile()
-        {
-            string dataDir = "";
-            string regJsonFile = "";
-
-            while (true)
-            {
-                try
-                {
-                    dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
-
-                    regJsonFile = dataDir + "\\data.json";
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    string curDir = @"C:\ProgramData\JasonAndFriends";
-
-                    Directory.CreateDirectory(curDir);
-
-                    Directory.SetCurrentDirectory(curDir);
-
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    StringBuilder sb = new StringBuilder();
-
-                    sb.AppendLine(ex.GetType().ToString());
-                    sb.AppendLine();
-                    sb.AppendLine(ex.Message);
-                    sb.AppendLine();
-                    sb.AppendLine(ex.StackTrace);
-
-                    MessageBox.Show(sb.ToString(), ex.Source + " Error!");
-                }
-
-                break;
-            }
-
-            if (!File.Exists(regJsonFile))
-            {
-                return new List<Friend>();
-            }
-
-            string data = File.ReadAllText(regJsonFile);
-
-            return JsonConvert.DeserializeObject<List<Friend>>(data);
-        }
-
-        private void SaveToJsonFile(List<Friend> friends)
-        {
-            string dataDir;
-            string regJsonFile;
-
-            while (true)
-            {
-                try
-                {
-                    dataDir = CheckAndGetDataDir(Directory.GetCurrentDirectory());
-
-                    regJsonFile = dataDir + "\\data.json";
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    string curDir = @"C:\ProgramData\JasonAndFriends";
-
-                    Directory.CreateDirectory(curDir);
-
-                    Directory.SetCurrentDirectory(curDir);
-
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    StringBuilder sb = new StringBuilder();
-
-                    sb.AppendLine(ex.GetType().ToString());
-                    sb.AppendLine();
-                    sb.AppendLine(ex.Message);
-                    sb.AppendLine();
-                    sb.AppendLine(ex.StackTrace);
-
-                    MessageBox.Show(sb.ToString(), ex.Source + " Error!");
-
-                    return;
-                }
-
-                break;
-            }
-
-            string data = JsonConvert.SerializeObject(friends, Formatting.Indented);
-
-            File.WriteAllText(regJsonFile, data);
-        }
-
-        /// <summary>
-        /// Creates a directory by the name of "Data" on top of the current directory
-        /// </summary>
-        /// <returns></returns>
-        private string CheckAndGetDataDir(string workingDir)
-        {
-            string dataDir;
-
-            dataDir = workingDir + "\\Data";
-
-            if (!Directory.Exists(dataDir))
-            {
-                Directory.CreateDirectory(dataDir);
-            }
-
-            return dataDir;
-        }
-
         private List<Friend> GenFriendListFromComboBox(ComboBox comboBox)
         {
             List<Friend> friends = new List<Friend>();
@@ -282,29 +125,10 @@
             return friends;
         }
 
-        private DialogResult PerformSaveOpWithDialog()
-        {
-            DialogResult latestResult = DialogResult.None;
-
-            while (true)
-            {
-                bool success = PerformSaveOp();
-                if (!success)
-                {
-                    latestResult = MessageBox.Show(
-                        "Error: Save operation failed.\nTry Again?",
-                        "Save Failure", 
-                        MessageBoxButtons.AbortRetryIgnore);
-
-                    if (latestResult == DialogResult.Retry) continue;
-                }
-
-                break;
-            }
-
-            return latestResult;
-        }
-
+        /// <summary>
+        /// Perform the save operation to save the friend's data
+        /// </summary>
+        /// <returns>true if succeeded, false if not succeeded</returns>
         private bool PerformSaveOp()
         {
             // Check if saving is valid
@@ -388,6 +212,40 @@
             return true;
         }
 
+        private void RefreshFriendSheet(Friend friend)
+        {
+            this.friendSheet.SetFriend(friend);
+
+            this.listBring.SetItems(friend.ListBring);
+            this.listWant.SetItems(friend.ListWant);
+        }
+
+        /// <summary>
+        /// Shows a prompt to give the user options to reattempt, abort, or ignore the saving procedure.
+        /// </summary>
+        /// <returns></returns>
+        private DialogResult PerformSaveOpWithDialog()
+        {
+            DialogResult latestResult = DialogResult.None;
+
+            while (true)
+            {
+                bool success = PerformSaveOp();
+                if (!success)
+                {
+                    latestResult = MessageBox.Show(
+                        "Error: Save operation failed.\nTry Again?",
+                        "Save Failure",
+                        MessageBoxButtons.AbortRetryIgnore);
+
+                    if (latestResult == DialogResult.Retry) continue;
+                }
+                break;
+            }
+
+            return latestResult;
+        }
+
         /// <summary>
         /// Shows a generic "unsaved changes" dialog box with an "Yes", "No", and "Cancel" button for the user to input
         /// </summary>
@@ -403,6 +261,65 @@
         #endregion Private Methods
 
         #region EventHandlers
+
+        private void JasonAndFriends_Load(object sender, EventArgs e)
+        {
+            this.friendSheet = GenFriendSheetController();
+
+            List<Friend> friends;
+
+            string data = DataMan.LoadFromFile(SAVE_FILE);
+            if (data == null)
+            {
+                friends = new List<Friend>();
+            }
+            else
+            {
+                friends = JsonConvert.DeserializeObject<List<Friend>>(data) ?? new List<Friend>();
+            }
+
+            foreach (Friend fr in friends)
+            {
+                this.ComboBoxFriends.Items.Add(fr);
+            }
+
+            this.listBring = GenWillBringListController();
+            this.listWant = GenWillWantListController();
+        }
+
+        private void JasonAndFriends_Closing(object sender, FormClosingEventArgs e)
+        {
+            bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
+            if (!saved)
+            {
+                switch (DataNotSavedDialog())
+                {
+                    case DialogResult.Yes:
+                        DialogResult saveStatus = PerformSaveOpWithDialog();
+
+                        if (saveStatus == DialogResult.Abort)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        break;
+                    case DialogResult.No:
+                        break; // Does nothing and lets the process continue closing
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        return; // Cancels the process and exits before the data is saved into the Json file
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+
+            List<Friend> friends = GenFriendListFromComboBox(this.ComboBoxFriends);
+
+            string data = JsonConvert.SerializeObject(friends, Formatting.Indented);
+
+            DataMan.SaveToFile(SAVE_FILE, data);
+        }
 
         private void comboBoxSelFriends_Click(object sender, EventArgs e)
         {
@@ -436,13 +353,7 @@
 
             Friend friend = (combo.SelectedItem as Friend) ?? new Friend();
 
-            this.friendSheet.SetFriend(friend);
-
-            List<Item> broughtItems = friend.ListBring;
-            List<Item> wantedItems = friend.ListWant;
-
-            this.listBring.SetItems(broughtItems);
-            this.listWant.SetItems(wantedItems);
+            RefreshFriendSheet(friend);
 
         }
 
@@ -470,22 +381,9 @@
             // Remove the comboBoxItem by the index
             this.ComboBoxFriends.Items.RemoveAt(index);
 
-            // If the friend selected is the same as the friend currently within
-            // the friendSheet, then set it to a blank sheet
-            if (friend == this.friendSheet.Friend)
+            if ((index == 0) || (friend == this.friendSheet.Friend))
             {
-                this.friendSheet.SetFriend(new Friend());
-            }
-
-            if (index == 0)
-            {
-                this.friendSheet.SetFriend(new Friend());
-
-                List<Item> broughtItems = friend.ListBring;
-                List<Item> wantedItems = friend.ListWant;
-
-                this.listBring.SetItems(broughtItems);
-                this.listWant.SetItems(wantedItems);
+                RefreshFriendSheet(new Friend());
             }
 
             // Set the selected index to be one entry above position 
