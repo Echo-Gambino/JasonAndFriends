@@ -43,7 +43,7 @@
             InitializeComponent();
         }
 
-
+        #region Controller Generators
 
         private ItemListController GenWillBringListController()
         {
@@ -109,10 +109,17 @@
             return controller;
         }
 
+        #endregion Controller Generators
+
         #endregion Initializer
 
         #region Private Methods
 
+        /// <summary>
+        /// Generates a list of Friends within the items of the given <paramref name="comboBox"/>.
+        /// </summary>
+        /// <param name="comboBox"></param>
+        /// <returns></returns>
         private List<Friend> GenFriendListFromComboBox(ComboBox comboBox)
         {
             List<Friend> friends = new List<Friend>();
@@ -262,6 +269,11 @@
 
         #region EventHandlers
 
+        /// <summary>
+        /// Executes when the upoun form load
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void JasonAndFriends_Load(object sender, EventArgs e)
         {
             this.friendSheet = GenFriendSheetController();
@@ -287,6 +299,11 @@
             this.listWant = GenWillWantListController();
         }
 
+        /// <summary>
+        /// Executes when the process detects the form is in the middle of closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void JasonAndFriends_Closing(object sender, FormClosingEventArgs e)
         {
             bool saved = CheckUnsavedData(this.friendSheet, this.listBring, this.listWant);
@@ -321,6 +338,11 @@
             DataMan.SaveToFile(SAVE_FILE, data);
         }
 
+        /// <summary>
+        /// Executes upoun the clicking the comboBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxSelFriends_Click(object sender, EventArgs e)
         {
             ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
@@ -347,6 +369,11 @@
             }
         }
 
+        /// <summary>
+        /// Executes when the process detects that the comboBox's selected index has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox combo = (sender as ComboBox) ?? throw new ArgumentNullException("sender is not ComboBox");
@@ -357,6 +384,11 @@
 
         }
 
+        /// <summary>
+        /// Executes when the delete button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonDelFriend_Click(object sender, EventArgs e)
         {
             // Retrieve comboBox

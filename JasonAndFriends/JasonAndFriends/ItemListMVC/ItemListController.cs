@@ -202,16 +202,16 @@
 
         private void AddViewEventHandlers(ItemListView view)
         {
-            this.view.RemItemRequested += new EventHandler(ButtonRemove_Click);
-            this.view.EdtItemRequested += new EventHandler(ButtonEdit_Click);
-            this.view.NewItemRequested += new EventHandler(ButtonNew_Click);
+            this.view.RequestRemItem += new EventHandler(Event_DelSelItem);
+            this.view.RequestEdtItem += new EventHandler(Event_EdtSelItem);
+            this.view.RequestNewItem += new EventHandler(Event_AddNewItem);
         }
 
         private void DelViewEventHandlers(ItemListView view)
         {
-            this.view.RemItemRequested -= new EventHandler(ButtonRemove_Click);
-            this.view.EdtItemRequested -= new EventHandler(ButtonEdit_Click);
-            this.view.NewItemRequested -= new EventHandler(ButtonNew_Click);
+            this.view.RequestRemItem -= new EventHandler(Event_DelSelItem);
+            this.view.RequestEdtItem -= new EventHandler(Event_EdtSelItem);
+            this.view.RequestNewItem -= new EventHandler(Event_AddNewItem);
         }
 
         private string SerializeItems(List<Item> items)
@@ -230,7 +230,7 @@
 
         #region EventHandlers
 
-        private void ButtonRemove_Click(object sender, EventArgs e)
+        private void Event_DelSelItem(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems;
 
@@ -257,7 +257,7 @@
             }
         }
 
-        private void ButtonEdit_Click(object sender, EventArgs e)
+        private void Event_EdtSelItem(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems;
 
@@ -287,7 +287,7 @@
             }
         }
 
-        private void ButtonNew_Click(object sender, EventArgs e)
+        private void Event_AddNewItem(object sender, EventArgs e)
         {
             ListBox lb = this.view?.ListBoxItems ?? throw new ArgumentNullException();
 

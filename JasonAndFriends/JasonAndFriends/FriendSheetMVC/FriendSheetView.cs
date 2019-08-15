@@ -96,9 +96,13 @@
 
         #endregion Parameters
 
-        public FriendSheetView()
-        {
-        }
+        #region Constructor
+
+        public FriendSheetView() { }
+
+        #endregion Constructor
+
+        #region Setters
 
         public void SetName(string name)
         {
@@ -137,19 +141,21 @@
             }
         }
 
+        #endregion Setters
+
         #region Event Handlers
 
-        public void TextBoxName_Leave(object sender, EventArgs e)
+        private void TextBoxName_Leave(object sender, EventArgs e)
         {
             NameChanged?.Invoke(sender, e);
         }
 
-        public void TextBoxName_EnterPressed(object sender, KeyEventArgs e)
+        private void TextBoxName_EnterPressed(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) NameChanged?.Invoke(sender, e);
         }
 
-        public void RadioButtonDietary_Click(object sender, EventArgs e)
+        private void RadioButtonDietary_Click(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
 
@@ -164,7 +170,7 @@
             }
         }
 
-        public void RadioButtonCanDrink_Click(object sender, EventArgs e)
+        private void RadioButtonCanDrink_Click(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
 

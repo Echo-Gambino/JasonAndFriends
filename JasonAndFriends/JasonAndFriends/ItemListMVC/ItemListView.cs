@@ -16,11 +16,11 @@
 
         public event EventHandler SelectedItemChanged;
 
-        public event EventHandler NewItemRequested;
+        public event EventHandler RequestNewItem;
 
-        public event EventHandler RemItemRequested;
+        public event EventHandler RequestRemItem;
 
-        public event EventHandler EdtItemRequested;
+        public event EventHandler RequestEdtItem;
 
         #endregion Events
 
@@ -107,9 +107,7 @@
 
         #region Constructors
 
-        public ItemListView()
-        {
-        }
+        public ItemListView() { }
 
         #endregion Constructors
 
@@ -121,24 +119,12 @@
 
             if (LBcollection != null)
             {
-                FillLB(items, LBcollection);
+                FillLabelBox(items, LBcollection);
             }
 
         }
 
-        public void FillCLB(List<Item> items, CheckedListBox.ObjectCollection collection)
-        {
-            if ((collection == null) || (items == null)) throw new ArgumentNullException();
-
-            collection.Clear();
-
-            foreach (Item i in items)
-            {
-                collection.Add(i);
-            }
-        }
-
-        public void FillLB(List<Item> items, ListBox.ObjectCollection collection)
+        public void FillLabelBox(List<Item> items, ListBox.ObjectCollection collection)
         {
             if ((collection == null) || (items == null)) throw new ArgumentNullException();
 
@@ -161,17 +147,17 @@
 
         private void ButtonNew_Click(object sender, EventArgs e)
         {
-            NewItemRequested?.Invoke(sender, e);
+            RequestNewItem?.Invoke(sender, e);
         }
 
         private void ButtonRem_Click(object sender, EventArgs e)
         {
-            RemItemRequested?.Invoke(sender, e);
+            RequestRemItem?.Invoke(sender, e);
         }
 
         private void ButtonEdt_Click(object sender, EventArgs e)
         {
-            EdtItemRequested?.Invoke(sender, e);
+            RequestEdtItem?.Invoke(sender, e);
         }
 
         #endregion Event Handlers

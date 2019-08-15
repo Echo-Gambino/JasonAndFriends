@@ -180,7 +180,7 @@
 
         #endregion Methods
 
-        #region EventHandler
+        #region Event Handlers
 
         private void TextBoxName_SaveToFriend(object sender, EventArgs e)
         {
@@ -224,6 +224,6 @@
         }
 
 
-        #endregion EventHandler
+        #endregion Event Handlers
     }
 }
